@@ -3,6 +3,7 @@ package com.dietreino.backend.services;
 import com.dietreino.backend.domain.MuscularGroup;
 import com.dietreino.backend.dto.MuscularGroup.MuscularGroupRequestDTO;
 import com.dietreino.backend.repositories.MuscularGroupRepository;
+import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class MuscularGroupService extends BaseService<MuscularGroup, MuscularGroupRequestDTO> {
+public class MuscularGroupService extends CRUDService<MuscularGroup, MuscularGroupRequestDTO> {
     private final MuscularGroupRepository muscularGroupRepository;
 
 

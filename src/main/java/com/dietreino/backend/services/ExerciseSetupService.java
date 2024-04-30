@@ -4,6 +4,7 @@ import com.dietreino.backend.domain.Exercise;
 import com.dietreino.backend.domain.ExerciseSetup;
 import com.dietreino.backend.dto.ExerciseSetupRequestDTO;
 import com.dietreino.backend.repositories.ExerciseSetupRepository;
+import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-public class ExerciseSetupService extends BaseService<ExerciseSetup, ExerciseSetupRequestDTO> {
+public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSetupRequestDTO> {
     private final ExerciseSetupRepository repository;
     private final ExerciseService exerciseService;
 

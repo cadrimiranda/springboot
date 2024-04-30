@@ -1,10 +1,10 @@
-package com.dietreino.backend.services;
+package com.dietreino.backend.utils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class BaseService<T, DTO> {
+public abstract class CRUDService<T, DTO> {
     public abstract T convertDto(DTO dto);
     public abstract void validateDto(DTO dto);
     public abstract T save(DTO t);
