@@ -1,6 +1,6 @@
 package com.dietreino.backend.infra.security;
 
-import com.dietreino.backend.domain.user.User;
+import com.dietreino.backend.domain.User;
 import com.dietreino.backend.repositories.UserRepository;
 import com.dietreino.backend.services.TokenService;
 import jakarta.servlet.FilterChain;

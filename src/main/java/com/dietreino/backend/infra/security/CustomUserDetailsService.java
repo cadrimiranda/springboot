@@ -1,6 +1,6 @@
 package com.dietreino.backend.infra.security;
 
-import com.dietreino.backend.domain.user.User;
+import com.dietreino.backend.domain.User;
 import com.dietreino.backend.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

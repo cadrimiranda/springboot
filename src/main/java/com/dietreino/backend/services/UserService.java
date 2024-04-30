@@ -1,11 +1,10 @@
 package com.dietreino.backend.services;
 
-import com.dietreino.backend.domain.user.User;
+import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.UserDTO;
 import com.dietreino.backend.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.dietreino.backend.repositories;
 
-import com.dietreino.backend.domain.user.User;
+import com.dietreino.backend.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

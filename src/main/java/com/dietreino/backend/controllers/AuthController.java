@@ -1,6 +1,6 @@
 package com.dietreino.backend.controllers;
 
-import com.dietreino.backend.domain.user.User;
+import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.UserDTO;
 import com.dietreino.backend.services.TokenService;
