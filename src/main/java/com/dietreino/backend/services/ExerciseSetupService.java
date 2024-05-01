@@ -92,4 +92,8 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
     public void delete(UUID id) {
         repository.deleteById(id);
     }
+
+    public List<ExerciseSetup> findAllIds(List<UUID> ids) {
+        return repository.findAllById(ids);
+    }
 }
