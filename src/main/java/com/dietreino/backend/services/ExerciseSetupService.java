@@ -84,8 +84,8 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
     }
 
     @Override
-    public List<ExerciseSetup> findByCriteria(Map<String, Object> criteria) {
-        return repository.findByExerciseNameLike(criteria.get("name").toString());
+    public List<ExerciseSetup> findByCriteria(Map<String, String> criteria) {
+        return repository.findByExerciseNameLike(criteria.get("name"));
     }
 
     @Override

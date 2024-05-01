@@ -65,8 +65,8 @@ public class MuscularGroupService extends CRUDService<MuscularGroup, MuscularGro
     }
 
     @Override
-    public List<MuscularGroup> findByCriteria(Map<String, Object> criteria) {
-        return muscularGroupRepository.findByNameLike(criteria.get("name").toString());
+    public List<MuscularGroup> findByCriteria(Map<String, String> criteria) {
+        return muscularGroupRepository.findByNameLike(criteria.get("name"));
     }
 
     @Override

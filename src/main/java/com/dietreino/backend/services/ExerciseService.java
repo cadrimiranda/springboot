@@ -62,8 +62,8 @@ public class ExerciseService extends CRUDService<Exercise, ExerciseRequestDTO> {
     }
 
     @Override
-    public List<Exercise> findByCriteria(Map<String, Object> criteria) {
-        return exerciseRepository.findByNameLike(criteria.get("name").toString());
+    public List<Exercise> findByCriteria(Map<String, String> criteria) {
+        return exerciseRepository.findByNameLike(criteria.get("name"));
     }
 
     @Override

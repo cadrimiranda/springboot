@@ -20,6 +20,7 @@ import java.util.UUID;
 public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequestDTO> {
     private ExerciseSetupService exerciseSetupService;
     private ExerciseSetRepository exerciseSetRepository;
+    private final List<String> fields = List.of("Name", "Description");
 
     @Override
     public ExerciseSet convertDto(ExerciseSetRequestDTO exerciseSetRequestDTO) {
@@ -75,7 +76,11 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
 
     @Override
     public ExerciseSet update(UUID id, ExerciseSetRequestDTO exerciseSetRequestDTO) {
-        return null;
+        ExerciseSet exerciseSet = findById(id);
+        exerciseSet.setName(exerciseSetRequestDTO.name());
+        exerciseSet.setDescription(exerciseSetRequestDTO.description());
+        exerciseSetRepository.save(exerciseSet);
+        return exerciseSet;
     }
 
     @Override
@@ -92,18 +97,8 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
     }
 
     @Override
-    public List<ExerciseSet> findByCriteria(Map<String, Object> criteria) {
-        final String name = (String) criteria.get("Name");
-        final String description = (String) criteria.get("Description");
-
-        if (name != null && description != null) {
-            return exerciseSetRepository.findByNameContainingOrDescriptionContaining(name, description);
-        } else if (name != null) {
-            return exerciseSetRepository.findByNameContaining(name);
-        } else if (description != null) {
-            return exerciseSetRepository.findByDescriptionContaining(description);
-        }
-        return List.of();
+    public List<ExerciseSet> findByCriteria(Map<String, String> criteria) {
+        return findByFilter(exerciseSetRepository, criteria, fields, ExerciseSet.class);
     }
 
     public ExerciseSet addExerciseSetupToSet(ExerciseSetSetupDTO dto) {
@@ -118,5 +113,9 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
                 }).orElseThrow(() ->
                         new EntityNotFoundException("Exercise setup with id " + exerciseSetupId + " not found")
                 );
+    }
+
+    public List<ExerciseSet> findAllIds(List<UUID> exerciseSetIds) {
+        return exerciseSetRepository.findAllById(exerciseSetIds);
     }
 }
