@@ -1,7 +1,5 @@
 package com.dietreino.backend.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,16 +23,7 @@ public class ExerciseSet {
     private String name;
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "setups",
-            joinColumns = @JoinColumn(name = "exercise_set_id"),
-            inverseJoinColumns = @JoinColumn(name = "exercse_setup_id")
-    )
-    @JsonManagedReference
+    @OneToMany
+    @JoinColumn(name = "exercise_set_id")
     private List<ExerciseSetup> exerciseSetupList;
-
-    @ManyToMany(mappedBy = "exerciseSets")
-    @JsonBackReference
-    private List<Workout> workoutList;
 }

@@ -1,6 +1,5 @@
 package com.dietreino.backend.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -12,8 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -40,8 +37,4 @@ public class Exercise {
     @ManyToOne
     @JoinColumn(name="muscular_group_id")
     private MuscularGroup muscularGroup;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "exercise", fetch = FetchType.LAZY)
-    private List<ExerciseSetup> setups;
 }

@@ -1,6 +1,5 @@
 package com.dietreino.backend.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,12 +23,12 @@ public class Workout  {
     private String name;
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sets",
-            joinColumns = @JoinColumn(name = "workout_id"),
-            inverseJoinColumns = @JoinColumn(name = "exercise_set_id")
-    )
-    @JsonManagedReference
+    // User who created the workout
+    @ManyToOne
+    @JoinColumn(name = "created_by_id")
+    private User createdBy;
+
+    @OneToMany
+    @JoinColumn(name = "workout_id")
     private List<ExerciseSet> exerciseSets;
 }

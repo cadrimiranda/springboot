@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="musculargroup")
+@Table(name="muscular_group")
 @Getter
 @Setter
 @AllArgsConstructor
