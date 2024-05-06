@@ -5,7 +5,7 @@ import com.dietreino.backend.dto.exerciseSet.ExerciseSetRequestDTO;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetSetupDTO;
 import com.dietreino.backend.services.ExerciseSetService;
 import com.dietreino.backend.utils.CRUDController;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +13,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/exerciseset")
-@AllArgsConstructor
 public class ExerciseSetController extends CRUDController<ExerciseSet, ExerciseSetRequestDTO> {
     private final ExerciseSetService service;
+
+    @Autowired
+    public ExerciseSetController(ExerciseSetService service) {
+        this.service = service;
+    }
 
     @Override
     @GetMapping("/getone/{id}")

@@ -5,17 +5,22 @@ import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.UserDTO;
 import com.dietreino.backend.services.TokenService;
 import com.dietreino.backend.services.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class AuthController {
     private final TokenService tokenService;
     private final UserService userService;
+
+    @Autowired
+    public AuthController(TokenService tokenService, UserService userService) {
+        this.tokenService = tokenService;
+        this.userService = userService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body) {

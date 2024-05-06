@@ -5,7 +5,7 @@ import com.dietreino.backend.dto.MuscularGroup.MuscularGroupRequestDTO;
 import com.dietreino.backend.repositories.MuscularGroupRepository;
 import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +13,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 public class MuscularGroupService extends CRUDService<MuscularGroup, MuscularGroupRequestDTO> {
     private final MuscularGroupRepository muscularGroupRepository;
 
+    @Autowired
+    public MuscularGroupService(MuscularGroupRepository muscularGroupRepository) {
+        this.muscularGroupRepository = muscularGroupRepository;
+    }
 
     @Override
     public MuscularGroup convertDto(MuscularGroupRequestDTO muscularGroupRequestDTO) {

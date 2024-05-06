@@ -2,7 +2,7 @@ package com.dietreino.backend.infra.security;
 
 import com.dietreino.backend.repositories.UserRepository;
 import com.dietreino.backend.services.TokenService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,10 +19,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
 public class SecurityConfig {
     private final TokenService tokenService;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public SecurityConfig(TokenService tokenService, UserRepository userRepository) {
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

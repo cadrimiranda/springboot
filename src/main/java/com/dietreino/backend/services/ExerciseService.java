@@ -5,7 +5,7 @@ import com.dietreino.backend.dto.exercise.ExerciseRequestDTO;
 import com.dietreino.backend.repositories.ExerciseRepository;
 import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +13,13 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 public class ExerciseService extends CRUDService<Exercise, ExerciseRequestDTO> {
     private final ExerciseRepository exerciseRepository;
+
+    @Autowired
+    public ExerciseService(ExerciseRepository exerciseRepository) {
+        this.exerciseRepository = exerciseRepository;
+    }
 
     @Override
     public Exercise convertDto(ExerciseRequestDTO exerciseRequestDTO) {

@@ -26,4 +26,9 @@ public class MuscularGroup  {
     @JsonBackReference
     @OneToMany(mappedBy = "muscularGroup", fetch = FetchType.LAZY)
     private List<Exercise> exercises;
+
+    public MuscularGroup(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

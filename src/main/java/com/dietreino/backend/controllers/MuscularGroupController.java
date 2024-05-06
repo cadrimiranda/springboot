@@ -5,7 +5,7 @@ import com.dietreino.backend.domain.MuscularGroup;
 import com.dietreino.backend.dto.MuscularGroup.MuscularGroupRequestDTO;
 import com.dietreino.backend.services.MuscularGroupService;
 import com.dietreino.backend.utils.CRUDController;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +13,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/musculargroup")
-@AllArgsConstructor
 public class MuscularGroupController extends CRUDController<MuscularGroup, MuscularGroupRequestDTO> {
     private final MuscularGroupService muscularGroupService;
+
+    @Autowired
+    public MuscularGroupController(MuscularGroupService muscularGroupService) {
+        this.muscularGroupService = muscularGroupService;
+    }
 
     @GetMapping("/getone/{id}")
     @Override

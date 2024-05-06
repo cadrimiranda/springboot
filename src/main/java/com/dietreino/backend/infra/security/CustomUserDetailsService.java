@@ -2,7 +2,7 @@ package com.dietreino.backend.infra.security;
 
 import com.dietreino.backend.domain.User;
 import com.dietreino.backend.repositories.UserRepository;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,9 +11,13 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
-@AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

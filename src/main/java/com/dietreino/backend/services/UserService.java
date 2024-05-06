@@ -4,7 +4,7 @@ import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.UserDTO;
 import com.dietreino.backend.repositories.UserRepository;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +12,15 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Component
-@AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     private void validateDuplicatedUser(String email) {
         Optional<User> duplicatedUser = this.userRepository.findByEmail(email);

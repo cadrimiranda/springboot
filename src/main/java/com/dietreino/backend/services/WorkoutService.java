@@ -12,15 +12,20 @@ import java.util.UUID;
 
 import com.dietreino.backend.repositories.WorkoutRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
     private final ExerciseSetService exerciseSetService;
-    private WorkoutRepository workoutRepository;
+    private final WorkoutRepository workoutRepository;
     private final List<String> fields = List.of("Name", "Description");
+
+    @Autowired
+    public WorkoutService(WorkoutRepository workoutRepository, ExerciseSetService exerciseSetService) {
+        this.workoutRepository = workoutRepository;
+        this.exerciseSetService = exerciseSetService;
+    }
 
     @Override
     public Workout convertDto(WorkoutRequestDTO workoutRequestDTO) {
