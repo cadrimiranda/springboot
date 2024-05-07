@@ -6,6 +6,7 @@ import com.dietreino.backend.dto.MuscularGroup.MuscularGroupRequestDTO;
 import com.dietreino.backend.services.MuscularGroupService;
 import com.dietreino.backend.utils.CRUDController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,33 +22,38 @@ public class MuscularGroupController extends CRUDController<MuscularGroup, Muscu
         this.muscularGroupService = muscularGroupService;
     }
 
-    @GetMapping("/getone/{id}")
+    @GetMapping("/byId/{id}")
     @Override
-    public MuscularGroup getById(@PathVariable UUID id) {
-        return muscularGroupService.findById(id);
+    public ResponseEntity<MuscularGroup> getById(@PathVariable UUID id) {
+        MuscularGroup muscularGroup = muscularGroupService.findById(id);
+        return ResponseEntity.ok(muscularGroup);
     }
 
     @PostMapping("/save")
     @Override
-    public MuscularGroup create(@RequestBody MuscularGroupRequestDTO body) {
-        return muscularGroupService.save(body);
+    public ResponseEntity<MuscularGroup> create(@RequestBody MuscularGroupRequestDTO body) {
+        MuscularGroup muscularGroup = muscularGroupService.save(body);
+        return ResponseEntity.ok(muscularGroup);
     }
 
     @PostMapping("/getall")
     @Override
-    public List<MuscularGroup> getAll() {
-        return muscularGroupService.findAll();
+    public ResponseEntity<List<MuscularGroup>> getAll() {
+        List<MuscularGroup> muscularGroups = muscularGroupService.findAll();
+        return ResponseEntity.ok(muscularGroups);
     }
 
     @DeleteMapping
     @Override
-    public void deleteOne(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteOne(@PathVariable UUID id) {
         muscularGroupService.delete(id);
+        return ResponseEntity.ok("Deleted muscular group with id: " + id);
     }
 
     @Override
     @PutMapping("/{id}")
-    public MuscularGroup update(@PathVariable UUID id, @RequestBody MuscularGroupRequestDTO body) {
-        return muscularGroupService.update(id, body);
+    public ResponseEntity<MuscularGroup> update(@PathVariable UUID id, @RequestBody MuscularGroupRequestDTO body) {
+        MuscularGroup muscularGroup = muscularGroupService.update(id, body);
+        return ResponseEntity.ok(muscularGroup);
     }
 }

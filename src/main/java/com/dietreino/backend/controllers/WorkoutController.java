@@ -5,8 +5,8 @@ import com.dietreino.backend.dto.WorkoutRequestDTO;
 import com.dietreino.backend.dto.WorkoutSetRequestDTO;
 import com.dietreino.backend.services.WorkoutService;
 import com.dietreino.backend.utils.CRUDController;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,38 +23,44 @@ public class WorkoutController extends CRUDController<Workout, WorkoutRequestDTO
     }
 
     @Override
-    @GetMapping("/getone/{id}")
-    public Workout getById(@PathVariable UUID id) {
-        return service.findById(id);
+    @GetMapping("/byId/{id}")
+    public ResponseEntity<Workout> getById(@PathVariable UUID id) {
+        Workout workout = service.findById(id);
+        return ResponseEntity.ok(workout);
     }
 
     @Override
     @PostMapping
-    public Workout create(@RequestBody WorkoutRequestDTO workoutRequestDTO) {
-        return service.save(workoutRequestDTO);
+    public ResponseEntity<Workout> create(@RequestBody WorkoutRequestDTO workoutRequestDTO) {
+        Workout workout = service.save(workoutRequestDTO);
+        return ResponseEntity.ok(workout);
     }
 
     @Override
     @PutMapping("/{id}")
-    public Workout update(@PathVariable UUID id, @RequestBody WorkoutRequestDTO workoutRequestDTO) {
-        return service.update(id, workoutRequestDTO);
+    public ResponseEntity<Workout> update(@PathVariable UUID id, @RequestBody WorkoutRequestDTO workoutRequestDTO) {
+        Workout workout = service.update(id, workoutRequestDTO);
+        return ResponseEntity.ok(workout);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public void deleteOne(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteOne(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.ok("Deleted workout with id: " + id);
     }
 
     @Override
     @PostMapping("/getall")
-    public List<Workout> getAll() {
-        return service.findAll();
+    public ResponseEntity<List<Workout>> getAll() {
+        List<Workout> workouts = service.findAll();
+        return ResponseEntity.ok(workouts);
     }
 
 
-    @PostMapping("/add/set")
-    public Workout addExerciseSet(@RequestBody WorkoutSetRequestDTO dto) {
-        return service.addSetToWorkout(dto);
+    @PostMapping("/exerciseset")
+    public ResponseEntity<Workout> addExerciseSet(@RequestBody WorkoutSetRequestDTO dto) {
+        Workout workout = service.addSetToWorkout(dto);
+        return ResponseEntity.ok(workout);
     }
 }

@@ -6,6 +6,7 @@ import com.dietreino.backend.dto.exerciseSet.ExerciseSetSetupDTO;
 import com.dietreino.backend.services.ExerciseSetService;
 import com.dietreino.backend.utils.CRUDController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,37 +23,43 @@ public class ExerciseSetController extends CRUDController<ExerciseSet, ExerciseS
     }
 
     @Override
-    @GetMapping("/getone/{id}")
-    public ExerciseSet getById(@PathVariable UUID id) {
-        return service.findById(id);
+    @GetMapping("/byId/{id}")
+    public ResponseEntity<ExerciseSet> getById(@PathVariable UUID id) {
+        ExerciseSet eSet = service.findById(id);
+        return ResponseEntity.ok(eSet);
     }
 
     @Override
     @PostMapping
-    public ExerciseSet create(@RequestBody ExerciseSetRequestDTO exerciseSetRequestDTO) {
-        return service.save(exerciseSetRequestDTO);
+    public ResponseEntity<ExerciseSet> create(@RequestBody ExerciseSetRequestDTO exerciseSetRequestDTO) {
+        ExerciseSet exerciseSet = service.save(exerciseSetRequestDTO);
+        return ResponseEntity.ok(exerciseSet);
     }
 
     @Override
     @PutMapping("/{id}")
-    public ExerciseSet update(@PathVariable UUID id, @RequestBody ExerciseSetRequestDTO exerciseSetRequestDTO) {
-        return service.update(id, exerciseSetRequestDTO);
+    public ResponseEntity<ExerciseSet> update(@PathVariable UUID id, @RequestBody ExerciseSetRequestDTO exerciseSetRequestDTO) {
+        ExerciseSet exerciseSet = service.update(id, exerciseSetRequestDTO);
+        return ResponseEntity.ok(exerciseSet);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public void deleteOne(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteOne(@PathVariable UUID id) {
         service.delete(id);
+        return ResponseEntity.ok("Deleted exercise set with id: " + id);
     }
 
     @Override
     @PostMapping("/getall")
-    public List<ExerciseSet> getAll() {
-        return service.findAll();
+    public ResponseEntity<List<ExerciseSet>> getAll() {
+        List<ExerciseSet> list = service.findAll();
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping("/add/exercises")
-    public ExerciseSet addExerciseSet(@RequestBody ExerciseSetSetupDTO dto) {
-        return service.addExerciseSetupToSet(dto);
+    public ResponseEntity<ExerciseSet> addExerciseSet(@RequestBody ExerciseSetSetupDTO dto) {
+        ExerciseSet set = service.addExerciseSetupToSet(dto);
+        return ResponseEntity.ok(set);
     }
 }
