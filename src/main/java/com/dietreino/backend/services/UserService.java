@@ -4,11 +4,13 @@ import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.UserDTO;
 import com.dietreino.backend.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Component
@@ -74,5 +76,9 @@ public class UserService {
         }
 
         return user;
+    }
+
+    public User findById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 }
