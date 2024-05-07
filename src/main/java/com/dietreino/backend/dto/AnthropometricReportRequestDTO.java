@@ -1,0 +1,42 @@
+package com.dietreino.backend.dto;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+public record AnthropometricReportRequestDTO(
+        UUID userId,
+        LocalDate reportDate,
+        double height,
+        double weight,
+        double idealWeight,
+        double bmi,
+        double bodyFatMass,
+        double percentageBodyFat,
+        double leanMass,
+        double percentageLeanMass,
+        double bodyDensity,
+        double sumOfSkinfolds,
+        double armMuscleArea,
+        double armFatArea,
+        double shoulderCircumference,
+        double chestCircumference,
+        double waistCircumference,
+        double abdomenCircumference,
+        double rightCalfCircumference,
+        double leftCalfCircumference,
+        double rightThighCircumference,
+        double leftThighCircumference,
+        double relaxedRightArmCircumference,
+        double relaxedLeftArmCircumference,
+        double contractedRightArmCircumference,
+        double contractedLeftArmCircumference,
+        double rightForearmCircumference,
+        double leftForearmCircumference,
+        double tricepsSkinfold,
+        double midAxillarySkinfold,
+        double chestSkinfold,
+        double abdominalSkinfold,
+        double suprailiacSkinfold,
+        double subscapularSkinfold,
+        double thighSkinfold
+) {}
