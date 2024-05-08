@@ -51,7 +51,7 @@ public class WorkoutController extends CRUDController<Workout, WorkoutRequestDTO
     }
 
     @Override
-    @PostMapping("/getall")
+    @GetMapping("/getall")
     public ResponseEntity<List<Workout>> getAll() {
         List<Workout> workouts = service.findAll();
         return ResponseEntity.ok(workouts);

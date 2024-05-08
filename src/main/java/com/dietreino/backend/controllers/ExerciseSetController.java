@@ -51,7 +51,7 @@ public class ExerciseSetController extends CRUDController<ExerciseSet, ExerciseS
     }
 
     @Override
-    @PostMapping("/getall")
+    @GetMapping("/getall")
     public ResponseEntity<List<ExerciseSet>> getAll() {
         List<ExerciseSet> list = service.findAll();
         return ResponseEntity.ok(list);

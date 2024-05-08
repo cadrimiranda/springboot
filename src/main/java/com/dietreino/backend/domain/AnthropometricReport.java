@@ -5,20 +5,23 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "anthropometric_report")
 @Data
 @Builder
+@AllArgsConstructor
 public class AnthropometricReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false)
@@ -137,7 +140,7 @@ public class AnthropometricReport {
     @NotNull
     private double thighSkinfold;
 
-    public AnthropometricReport() {
+    protected AnthropometricReport() {
 
     }
 }

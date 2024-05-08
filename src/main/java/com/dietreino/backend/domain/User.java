@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,15 +22,6 @@ public class User  {
     private String name;
     private String email;
     private String password;
-
-    // Workouts created by the coach
-    @OneToMany(mappedBy = "createdBy")
-    private List<Workout> createdWorkouts;
-
-    // Workouts assigned to the user
-    @OneToMany
-    @JoinColumn(name = "users_id")
-    private List<Workout> assignedWorkouts;
 
     // Active workout for the user
     @ManyToOne
