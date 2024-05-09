@@ -1,5 +1,6 @@
 package com.dietreino.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -24,6 +25,7 @@ public class AnthropometricReport {
     private UUID id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "users_id", nullable = false)
     private User user;
 

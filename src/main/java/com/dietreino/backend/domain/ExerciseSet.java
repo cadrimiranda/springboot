@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="exercise_set")
+@Table(name = "exercise_set")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,7 +23,11 @@ public class ExerciseSet {
     private String name;
     private String description;
 
-    @OneToMany
-    @JoinColumn(name = "exercise_set_id")
+    @ManyToMany()
+    @JoinTable(
+            name = "set_setup",
+            joinColumns = @JoinColumn(name = "exercise_set_id"),
+            inverseJoinColumns = @JoinColumn(name = "exercise_setup_id")
+    )
     private List<ExerciseSetup> exerciseSetupList;
 }

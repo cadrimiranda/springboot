@@ -1,6 +1,7 @@
 package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.User;
+import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.UserDTO;
 import com.dietreino.backend.repositories.UserRepository;
@@ -80,5 +81,9 @@ public class UserService {
 
     public User findById(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+    }
+
+    public Optional<Workout> getActiveWorkout(UUID userId) {
+        return userRepository.findActiveWorkoutByUserId(userId);
     }
 }
