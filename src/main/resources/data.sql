@@ -1,21 +1,11 @@
 -- Insert data into `muscular_group` table
 INSERT INTO muscular_group (id, name)
-VALUES ('aa111111-1111-1111-1111-111111111111', 'Quadriceps');
-
-INSERT INTO muscular_group (id, name)
-VALUES ('aa222222-2222-2222-2222-222222222222', 'Posterior de Perna');
-
-INSERT INTO muscular_group (id, name)
-VALUES ('aa333333-3333-3333-3333-333333333333', 'Biceps');
-
-INSERT INTO muscular_group (id, name)
-VALUES ('aa444444-4444-4444-4444-444444444444', 'Triceps');
-
-INSERT INTO muscular_group (id, name)
-VALUES ('aa555555-5555-5555-5555-555555555555', 'Ombro');
-
-INSERT INTO muscular_group (id, name)
-VALUES ('aa666666-6666-6666-6666-666666666666', 'Peito');
+VALUES ('aa111111-1111-1111-1111-111111111111', 'Quadriceps'),
+       ('aa222222-2222-2222-2222-222222222222', 'Posterior de Perna'),
+       ('aa333333-3333-3333-3333-333333333333', 'Biceps'),
+       ('aa444444-4444-4444-4444-444444444444', 'Triceps'),
+       ('aa555555-5555-5555-5555-555555555555', 'Ombro'),
+       ('aa666666-6666-6666-6666-666666666666', 'Peito');
 
 -- noinspection SqlNoDataSourceInspection
 INSERT INTO users (id, email, name, password, active_workout_id)
@@ -40,80 +30,50 @@ INSERT INTO user_workout (user_id, workout_id)
 VALUES ('11111111-1111-1111-1111-111111111111', '55555555-5555-5555-5555-555555555555'),
        ('11111111-1111-1111-1111-111111111111', '66666666-6666-6666-6666-666666666666');
 
--- Insert data into `exercise` table
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a1111111-1111-1111-1111-111111111111', 'aa111111-1111-1111-1111-111111111111', 'Extensora Bl.',
-        '4 series of 20-18-15-15 reps with 60s rest');
-
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a2222222-2222-2222-2222-222222222222', 'aa444444-4444-4444-4444-444444444444', 'Triceps polia barra',
-        '4 series of 15-12-10-8 reps with 120-180s rest');
-
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a3333333-3333-3333-3333-333333333333', 'aa333333-3333-3333-3333-333333333333', 'Rosca polia c/ barra',
-        '4 series of 15-12-10-8 reps with 120-180s rest');
-
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a4444444-4444-4444-4444-444444444444', 'aa444444-4444-4444-4444-444444444444', 'Triceps francês halter',
-        '4 series of 10 to 12 reps with 90s rest');
-
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a5555555-5555-5555-5555-555555555555', 'aa333333-3333-3333-3333-333333333333', 'Scott maq. uni.',
-        '3 series of 10 to 12 reps with 30s rest');
-
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a6666666-6666-6666-6666-666666666666', 'aa444444-4444-4444-4444-444444444444', 'Triceps testa halter',
-        '4 series of 10 to 12 reps with 90s rest');
-
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a7777777-7777-7777-7777-777777777777', 'aa333333-3333-3333-3333-333333333333',
-        'Rosca bíceps banco inclinado alternado', '4 series of 10 to 12 reps with 90s rest');
-
-INSERT INTO exercise (id, muscular_group_id, name, description)
-VALUES ('a8888888-8888-8888-8888-888888888888', 'aa444444-4444-4444-4444-444444444444', 'Triceps polia',
-        '2 series of 15 to 20 reps with 30s rest');
-
 -- Insert data into `exercise_set` table
 INSERT INTO exercise_set (id, workout_id, name, description)
 VALUES ('99999999-9999-9999-9999-999999999999', '55555555-5555-5555-5555-555555555555', 'Base.3 Bracos',
-        'The first set of the routine'),
-       ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '66666666-6666-6666-6666-666666666666', 'Set 2',
-        'The second set of the routine');
+        'Arms set'),
+       ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '55555555-5555-5555-5555-555555555555', 'Base.3 Ombros',
+        'Deltoids set');
 
--- Insert data into `exercise_setup` table
+-- Insert Bse.3 Arms
+INSERT INTO exercise (id, muscular_group_id, name, description)
+VALUES ('a1111111-1111-1111-1111-111111111111', 'aa111111-1111-1111-1111-111111111111', 'Extensora Bl.',
+        '4 series of 20-18-15-15 reps with 60s rest'),
+       ('a2222222-2222-2222-2222-222222222222', 'aa444444-4444-4444-4444-444444444444', 'Triceps polia barra',
+        '4 series of 15-12-10-8 reps with 120-180s rest'),
+       ('a3333333-3333-3333-3333-333333333333', 'aa333333-3333-3333-3333-333333333333', 'Rosca polia c/ barra',
+        '4 series of 15-12-10-8 reps with 120-180s rest'),
+       ('a4444444-4444-4444-4444-444444444444', 'aa444444-4444-4444-4444-444444444444', 'Triceps francês halter',
+        '4 series of 10 to 12 reps with 90s rest'),
+       ('a5555555-5555-5555-5555-555555555555', 'aa333333-3333-3333-3333-333333333333', 'Scott maq. uni.',
+        '3 series of 10 to 12 reps with 30s rest'),
+       ('a6666666-6666-6666-6666-666666666666', 'aa444444-4444-4444-4444-444444444444', 'Triceps testa halter',
+        '4 series of 10 to 12 reps with 90s rest'),
+       ('a7777777-7777-7777-7777-777777777777', 'aa333333-3333-3333-3333-333333333333',
+        'Rosca bíceps banco inclinado alternado', '4 series of 10 to 12 reps with 90s rest'),
+       ('a8888888-8888-8888-8888-888888888888', 'aa444444-4444-4444-4444-444444444444', 'Triceps polia',
+        '2 series of 15 to 20 reps with 30s rest');
+
 INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
 VALUES ('b1111111-1111-1111-1111-111111111111', 'a1111111-1111-1111-1111-111111111111', '4', '20-18-15-15', '60s',
-        'Increase weight each set');
-
-INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
-VALUES ('b2222222-2222-2222-2222-222222222222', 'a2222222-2222-2222-2222-222222222222', '4', '15-12-10-8', '120-180s',
-        'Keep elbows fixed');
-
-INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
-VALUES ('b3333333-3333-3333-3333-333333333333', 'a3333333-3333-3333-3333-333333333333', '4', '15-12-10-8', '120-180s',
-        'Focus on form');
-
-INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
-VALUES ('b4444444-4444-4444-4444-444444444444', 'a4444444-4444-4444-4444-444444444444', '4', '10-12', '90s',
-        'Full extension');
-
-INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
-VALUES ('b5555555-5555-5555-5555-555555555555', 'a5555555-5555-5555-5555-555555555555', '3', '10-12', '30s',
-        'Isolate biceps');
-
-INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
-VALUES ('b6666666-6666-6666-6666-666666666666', 'a6666666-6666-6666-6666-666666666666', '4', '10-12', '90s',
-        'Do not lock elbows');
-
-INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
-VALUES ('b7777777-7777-7777-7777-777777777777', 'a7777777-7777-7777-7777-777777777777', '4', '10-12', '90s',
-        'Alternate arms, focus on form');
-
-INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
-VALUES ('b8888888-8888-8888-8888-888888888888', 'a8888888-8888-8888-8888-888888888888', '2', '15-20', '30s',
+        'Increase weight each set'),
+       ('b2222222-2222-2222-2222-222222222222', 'a2222222-2222-2222-2222-222222222222', '4', '15-12-10-8', '120-180s',
+        'Keep elbows fixed'),
+       ('b3333333-3333-3333-3333-333333333333', 'a3333333-3333-3333-3333-333333333333', '4', '15-12-10-8', '120-180s',
+        'Focus on form'),
+       ('b4444444-4444-4444-4444-444444444444', 'a4444444-4444-4444-4444-444444444444', '4', '10-12', '90s',
+        'Full extension'),
+       ('b5555555-5555-5555-5555-555555555555', 'a5555555-5555-5555-5555-555555555555', '3', '10-12', '30s',
+        'Isolate biceps'),
+       ('b6666666-6666-6666-6666-666666666666', 'a6666666-6666-6666-6666-666666666666', '4', '10-12', '90s',
+        'Do not lock elbows'),
+       ('b7777777-7777-7777-7777-777777777777', 'a7777777-7777-7777-7777-777777777777', '4', '10-12', '90s',
+        'Alternate arms, focus on form'),
+       ('b8888888-8888-8888-8888-888888888888', 'a8888888-8888-8888-8888-888888888888', '2', '15-20', '30s',
         'Fast pace, less weight');
 
--- Insert data into `set_setup` table
 INSERT INTO set_setup (exercise_set_id, exercise_setup_id)
 VALUES ('99999999-9999-9999-9999-999999999999', 'b1111111-1111-1111-1111-111111111111'),
        ('99999999-9999-9999-9999-999999999999', 'b2222222-2222-2222-2222-222222222222'),
@@ -123,6 +83,43 @@ VALUES ('99999999-9999-9999-9999-999999999999', 'b1111111-1111-1111-1111-1111111
        ('99999999-9999-9999-9999-999999999999', 'b6666666-6666-6666-6666-666666666666'),
        ('99999999-9999-9999-9999-999999999999', 'b7777777-7777-7777-7777-777777777777'),
        ('99999999-9999-9999-9999-999999999999', 'b8888888-8888-8888-8888-888888888888');
+
+-- Insert Base.3 Ombros exercises and setups
+INSERT INTO exercise (id, muscular_group_id, name, description)
+VALUES ('79934692-a240-4c0b-b9ce-a34c351c7021', 'aa555555-5555-5555-5555-555555555555', 'Desenvolvimento no smith',
+        'Exercise with smith machine'),
+       ('75e01be6-ef3a-4ce8-b554-ed59e7197834', 'aa555555-5555-5555-5555-555555555555',
+        'Elevação frontal pronada com halter', 'Frontal elevation with dumbbell'),
+       ('c81981d2-db5a-4353-a481-c938f0755deb', 'aa555555-5555-5555-5555-555555555555', 'Elevação lateral polia baixa',
+        'Low pulley side lift'),
+       ('8c2fea55-4ada-41e9-b9fe-2dbaada60325', 'aa555555-5555-5555-5555-555555555555', 'Crucifixo invertido peck deck',
+        'Reverse flyes on pec deck machine'),
+       ('b46c52f9-5b09-4c24-9f83-23cb776da9bf', 'aa555555-5555-5555-5555-555555555555', 'Posterior polia',
+        'Rear delt rope pull'),
+       ('ab8c090f-a35f-4b6d-8769-6d9786352bbb', 'aa555555-5555-5555-5555-555555555555', 'Elevação lateral máquina',
+        'Machine lateral raise');
+
+INSERT INTO exercise_setup (id, exercise_id, series, repetitions, rest, observation)
+VALUES ('af65f4ca-0cb9-422a-bde5-a5071785fe29', '79934692-a240-4c0b-b9ce-a34c351c7021', '4', '15-12-10-8', '3-4min.',
+        'Increase weight each set'),
+       ('bb55c6e7-4619-4aaf-a4b6-694a1ee6ed91', '75e01be6-ef3a-4ce8-b554-ed59e7197834', '4', '12 a 15', '90s',
+        'Keep form tight'),
+       ('687bc951-640c-48c1-a72f-13271f81749c', 'c81981d2-db5a-4353-a481-c938f0755deb', '4', '10 a 12', '60s',
+        'Do not swing arms'),
+       ('cfef7c94-7049-4f59-a1db-390ec59cb975', '8c2fea55-4ada-41e9-b9fe-2dbaada60325', '4', '15-12-10-8', '90s',
+        'Focus on contraction'),
+       ('72a72b19-77aa-4e90-ad8e-1f90902c5295', 'b46c52f9-5b09-4c24-9f83-23cb776da9bf', '4', '8 a 12', '30-45s',
+        'Controlled movements'),
+       ('4d3c30a5-c080-4fd6-9233-911c5bb49e65', 'ab8c090f-a35f-4b6d-8769-6d9786352bbb', '6', '10 a 12', '60-90s',
+        'Adjust machine properly');
+
+INSERT INTO set_setup (exercise_set_id, exercise_setup_id)
+VALUES ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'af65f4ca-0cb9-422a-bde5-a5071785fe29'),
+       ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bb55c6e7-4619-4aaf-a4b6-694a1ee6ed91'),
+       ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '687bc951-640c-48c1-a72f-13271f81749c'),
+       ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cfef7c94-7049-4f59-a1db-390ec59cb975'),
+       ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '72a72b19-77aa-4e90-ad8e-1f90902c5295'),
+       ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '4d3c30a5-c080-4fd6-9233-911c5bb49e65');
 
 -- Insert data into `anthropometric_report` table
 INSERT INTO anthropometric_report (id, users_id, report_date, height, weight, ideal_weight, bmi, body_fat_mass,
