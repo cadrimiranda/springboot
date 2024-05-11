@@ -1,8 +1,8 @@
 package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.Workout;
-import com.dietreino.backend.dto.WorkoutRequestDTO;
-import com.dietreino.backend.dto.WorkoutSetRequestDTO;
+import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
+import com.dietreino.backend.dto.workout.WorkoutSetRequestDTO;
 import com.dietreino.backend.services.WorkoutService;
 import com.dietreino.backend.utils.CRUDController;
 import org.springframework.beans.factory.annotation.Autowired;
