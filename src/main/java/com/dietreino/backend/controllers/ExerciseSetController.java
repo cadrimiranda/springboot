@@ -1,6 +1,7 @@
 package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.ExerciseSet;
+import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetRequestDTO;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetSetupDTO;
 import com.dietreino.backend.services.ExerciseSetService;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/exerciseset")
+@RequestMapping("/exercise-set")
 public class ExerciseSetController extends CRUDController<ExerciseSet, ExerciseSetRequestDTO> {
     private final ExerciseSetService service;
 
@@ -40,6 +41,12 @@ public class ExerciseSetController extends CRUDController<ExerciseSet, ExerciseS
     @PutMapping("/{id}")
     public ResponseEntity<ExerciseSet> update(@PathVariable UUID id, @RequestBody ExerciseSetRequestDTO exerciseSetRequestDTO) {
         ExerciseSet exerciseSet = service.update(id, exerciseSetRequestDTO);
+        return ResponseEntity.ok(exerciseSet);
+    }
+
+    @PutMapping("/{id}/setup")
+    public ResponseEntity<ExerciseSet> updateWithSetup(@RequestBody ExerciseSetFullSetupDTO fullSetupDTO) {
+        ExerciseSet exerciseSet = service.updateFullDTO(fullSetupDTO);
         return ResponseEntity.ok(exerciseSet);
     }
 

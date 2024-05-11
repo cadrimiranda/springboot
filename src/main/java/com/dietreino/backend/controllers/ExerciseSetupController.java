@@ -1,7 +1,7 @@
 package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.ExerciseSetup;
-import com.dietreino.backend.dto.ExerciseSetupRequestDTO;
+import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupRequestDTO;
 import com.dietreino.backend.services.ExerciseSetupService;
 import com.dietreino.backend.utils.CRUDController;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.ExerciseSet;
 import com.dietreino.backend.domain.ExerciseSetup;
+import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetRequestDTO;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetSetupDTO;
 import com.dietreino.backend.exceptions.GenericException;
@@ -35,6 +36,20 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         exerciseSet.setDescription(exerciseSetRequestDTO.description());
 
         return exerciseSet;
+    }
+
+    public ExerciseSet convertFullDTO(ExerciseSetFullSetupDTO dto) {
+        ExerciseSet exerciseSet = this.findById(dto.id());
+        exerciseSet.setName(dto.name());
+        exerciseSet.setDescription(dto.description());
+        List<ExerciseSetup> exerciseSetups = exerciseSetupService.convertFullDtoList(dto.exerciseSetupList());
+        exerciseSet.setExerciseSetupList(exerciseSetups);
+        return exerciseSet;
+    }
+
+    public ExerciseSet updateFullDTO(ExerciseSetFullSetupDTO dto) {
+        ExerciseSet exerciseSet = this.convertFullDTO(dto);
+        return exerciseSetRepository.save(exerciseSet);
     }
 
     @Override

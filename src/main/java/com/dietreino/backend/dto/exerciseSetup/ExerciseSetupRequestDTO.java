@@ -1,4 +1,4 @@
-package com.dietreino.backend.dto;
+package com.dietreino.backend.dto.exerciseSetup;
 
 import java.util.UUID;
 

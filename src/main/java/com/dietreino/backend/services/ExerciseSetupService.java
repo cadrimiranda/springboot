@@ -2,14 +2,18 @@ package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.Exercise;
 import com.dietreino.backend.domain.ExerciseSetup;
-import com.dietreino.backend.dto.ExerciseSetupRequestDTO;
+import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupFullDTO;
+import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupRequestDTO;
 import com.dietreino.backend.repositories.ExerciseSetupRepository;
 import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSetupRequestDTO> {
@@ -30,6 +34,21 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
         exerciseSetup.setRest(dto.rest());
         exerciseSetup.setObservation(dto.observation());
         return exerciseSetup;
+    }
+
+    public List<ExerciseSetup> convertFullDtoList(List<ExerciseSetupFullDTO> dtoList) {
+        List<ExerciseSetup> exerciseSetups = new ArrayList<>();
+        for (ExerciseSetupFullDTO dto : dtoList) {
+            ExerciseSetup exerciseSetup = this.findById(dto.id());
+            exerciseSetup.setSeries(dto.series());
+            exerciseSetup.setRepetitions(dto.repetitions());
+            exerciseSetup.setRest(dto.rest());
+            exerciseSetup.setObservation(dto.observation());
+            exerciseSetup.setExercise(exerciseService.findById(dto.exerciseId()));
+            exerciseSetups.add(exerciseSetup);
+        }
+
+        return exerciseSetups;
     }
 
     @Override

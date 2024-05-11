@@ -2,18 +2,17 @@ package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.ExerciseSet;
 import com.dietreino.backend.domain.Workout;
-import com.dietreino.backend.dto.WorkoutRequestDTO;
-import com.dietreino.backend.dto.WorkoutSetRequestDTO;
+import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
+import com.dietreino.backend.dto.workout.WorkoutSetRequestDTO;
+import com.dietreino.backend.repositories.WorkoutRepository;
 import com.dietreino.backend.utils.CRUDService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import com.dietreino.backend.repositories.WorkoutRepository;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
