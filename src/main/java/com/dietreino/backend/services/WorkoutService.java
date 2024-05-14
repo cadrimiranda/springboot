@@ -1,15 +1,21 @@
 package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.ExerciseSet;
+import com.dietreino.backend.domain.ExerciseSetup;
 import com.dietreino.backend.domain.Workout;
+import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
+import com.dietreino.backend.dto.exerciseSet.ExerciseSetRequestDTO;
+import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupFullDTO;
+import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupRequestDTO;
 import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
-import com.dietreino.backend.dto.workout.WorkoutSetRequestDTO;
 import com.dietreino.backend.repositories.WorkoutRepository;
 import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,12 +24,14 @@ import java.util.UUID;
 public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
     private final ExerciseSetService exerciseSetService;
     private final WorkoutRepository workoutRepository;
+    private final ExerciseSetupService exerciseSetupService;
     private final List<String> fields = List.of("Name", "Description");
 
     @Autowired
-    public WorkoutService(WorkoutRepository workoutRepository, ExerciseSetService exerciseSetService) {
+    public WorkoutService(WorkoutRepository workoutRepository, ExerciseSetService exerciseSetService, ExerciseSetupService exerciseSetupService) {
         this.workoutRepository = workoutRepository;
         this.exerciseSetService = exerciseSetService;
+        this.exerciseSetupService = exerciseSetupService;
     }
 
     @Override
@@ -83,17 +91,18 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
         workoutRepository.deleteById(id);
     }
 
-    public Workout addSetToWorkout(WorkoutSetRequestDTO dto) {
-        List<UUID> setsId = dto.setsId();
-        List<ExerciseSet> sets = exerciseSetService.findAllIds(setsId);
-
-        return workoutRepository
-                .findById(dto.workoutId())
-                .map(workout -> {
-                    sets.forEach(set -> workout.getExerciseSets().add(set));
-                    return workoutRepository.save(workout);
-                }).orElseThrow(() ->
-                        new EntityNotFoundException("Workout with id " + dto.workoutId() + " not found")
-                );
+    @Transactional
+    public Workout addSetToWorkout(UUID workoutID, ExerciseSetFullSetupDTO setDto) {
+        Workout workout = findById(workoutID);
+        ExerciseSetRequestDTO exerciseSetRequestDTO = new ExerciseSetRequestDTO(setDto.name(), setDto.description());
+        ExerciseSet exerciseSet = exerciseSetService.save(exerciseSetRequestDTO);
+        exerciseSet.setExerciseSetupList(new ArrayList<>());
+        for (ExerciseSetupFullDTO setupDto : setDto.exerciseSetupList()) {
+            ExerciseSetupRequestDTO exerciseSetupRequestDTO = new ExerciseSetupRequestDTO(setupDto.exerciseId(), setupDto.series(), setupDto.repetitions(), setupDto.rest(), setupDto.observation());
+            ExerciseSetup exerciseSetup = exerciseSetupService.save(exerciseSetupRequestDTO);
+            exerciseSet.getExerciseSetupList().add(exerciseSetup);
+        }
+        workout.getExerciseSets().add(exerciseSet);
+        return workoutRepository.save(workout);
     }
 }

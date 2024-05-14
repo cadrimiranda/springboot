@@ -121,6 +121,17 @@ VALUES ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'af65f4ca-0cb9-422a-bde5-a507178
        ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '72a72b19-77aa-4e90-ad8e-1f90902c5295'),
        ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '4d3c30a5-c080-4fd6-9233-911c5bb49e65');
 
+-- Exercicios de peito
+
+INSERT INTO exercise (id, muscular_group_id, name, description)
+VALUES ('271ec29e-6cf6-4ea3-85c9-43a65b7e93ba', 'aa666666-6666-6666-6666-666666666666', 'Crucifixo máquina',
+        'Exercise with smith machine'),
+       ('bf8279d2-968a-4fd0-9138-0f6ecb666b26', 'aa666666-6666-6666-6666-666666666666',
+        'Supino reto com halter', 'Frontal elevation with dumbbell'),
+       ('5a22cd44-69d8-4d5e-be0a-bae3b3008dc0', 'aa666666-6666-6666-6666-666666666666', 'Supino inclinado com halter',
+        'Supino inclinado com halter');
+
+
 -- Insert data into `anthropometric_report` table
 INSERT INTO anthropometric_report (id, users_id, report_date, height, weight, ideal_weight, bmi, body_fat_mass,
                                    percentage_body_fat, lean_mass, percentage_lean_mass, body_density, sum_of_skinfolds,

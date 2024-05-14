@@ -9,6 +9,7 @@ import com.dietreino.backend.exceptions.GenericException;
 import com.dietreino.backend.repositories.ExerciseSetRepository;
 import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
     }
 
     public ExerciseSet convertFullDTO(ExerciseSetFullSetupDTO dto) {
-        ExerciseSet exerciseSet = this.findById(dto.id());
+        ExerciseSet exerciseSet = exerciseSetRepository.findById(dto.id()).orElse(new ExerciseSet());
         exerciseSet.setName(dto.name());
         exerciseSet.setDescription(dto.description());
         List<ExerciseSetup> exerciseSetups = exerciseSetupService.convertFullDtoList(dto.exerciseSetupList());
@@ -47,6 +48,7 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         return exerciseSet;
     }
 
+    @Transactional
     public ExerciseSet updateFullDTO(ExerciseSetFullSetupDTO dto) {
         ExerciseSet exerciseSet = this.convertFullDTO(dto);
         return exerciseSetRepository.save(exerciseSet);

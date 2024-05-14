@@ -1,10 +1,11 @@
 package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.Workout;
+import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
 import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
-import com.dietreino.backend.dto.workout.WorkoutSetRequestDTO;
 import com.dietreino.backend.services.WorkoutService;
 import com.dietreino.backend.utils.CRUDController;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,10 +58,9 @@ public class WorkoutController extends CRUDController<Workout, WorkoutRequestDTO
         return ResponseEntity.ok(workouts);
     }
 
-
-    @PostMapping("/exerciseset")
-    public ResponseEntity<Workout> addExerciseSet(@RequestBody WorkoutSetRequestDTO dto) {
-        Workout workout = service.addSetToWorkout(dto);
-        return ResponseEntity.ok(workout);
+    @PostMapping("/{workoutId}/exercise-set")
+    public ResponseEntity<Boolean> addExerciseSet(@PathVariable UUID workoutId, @Valid @RequestBody ExerciseSetFullSetupDTO exerciseSetFullSetupDTO) {
+        Workout workout = service.addSetToWorkout(workoutId, exerciseSetFullSetupDTO);
+        return ResponseEntity.ok(workout != null);
     }
 }
