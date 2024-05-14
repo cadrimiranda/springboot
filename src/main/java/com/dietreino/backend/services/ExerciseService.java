@@ -1,6 +1,7 @@
 package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.Exercise;
+import com.dietreino.backend.dto.exercise.ExerciseAutocompleteDTO;
 import com.dietreino.backend.dto.exercise.ExerciseRequestDTO;
 import com.dietreino.backend.repositories.ExerciseRepository;
 import com.dietreino.backend.utils.CRUDService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ExerciseService extends CRUDService<Exercise, ExerciseRequestDTO> {
@@ -67,12 +69,18 @@ public class ExerciseService extends CRUDService<Exercise, ExerciseRequestDTO> {
 
     @Override
     public List<Exercise> findByCriteria(Map<String, String> criteria) {
-        return exerciseRepository.findByNameLike(criteria.get("name"));
+        return exerciseRepository.findByNameContainingIgnoreCase(criteria.get("name"));
     }
 
     @Override
     public void delete(UUID id) {
         Exercise exercise = this.findById(id);
         exerciseRepository.delete(exercise);
+    }
+
+    public List<ExerciseAutocompleteDTO> autocomplete(String name) {
+        return exerciseRepository.findByNameContainingIgnoreCase(name).stream().map((exercise) ->
+                new ExerciseAutocompleteDTO(exercise.getName(), exercise.getId())
+        ).collect(Collectors.toList());
     }
 }

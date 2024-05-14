@@ -1,6 +1,7 @@
 package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.Exercise;
+import com.dietreino.backend.dto.exercise.ExerciseAutocompleteDTO;
 import com.dietreino.backend.dto.exercise.ExerciseRequestDTO;
 import com.dietreino.backend.services.ExerciseService;
 import com.dietreino.backend.utils.CRUDController;
@@ -27,6 +28,12 @@ public class ExerciseController extends CRUDController<Exercise, ExerciseRequest
     public ResponseEntity<Exercise> getById(@PathVariable UUID id) {
         Exercise exercise = service.findById(id);
         return ResponseEntity.ok(exercise);
+    }
+
+    @GetMapping("/autocomplete/{name}")
+    public ResponseEntity<List<ExerciseAutocompleteDTO>> autoComplete(@PathVariable String name) {
+        List<ExerciseAutocompleteDTO> exercises = service.autocomplete(name);
+        return ResponseEntity.ok(exercises);
     }
 
     @PostMapping
