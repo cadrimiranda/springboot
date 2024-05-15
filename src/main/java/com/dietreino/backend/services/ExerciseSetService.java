@@ -137,7 +137,10 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
                 );
     }
 
-    public List<ExerciseSet> findAllIds(List<UUID> exerciseSetIds) {
-        return exerciseSetRepository.findAllById(exerciseSetIds);
+    public void removeExerciseSetupFromSet(UUID exerciseSetId, UUID exerciseSetupId) {
+        ExerciseSet exerciseSet = this.findById(exerciseSetId);
+        ExerciseSetup exerciseSetup = exerciseSetupService.findById(exerciseSetupId);
+        exerciseSet.getExerciseSetupList().remove(exerciseSetup);
+        exerciseSetRepository.save(exerciseSet);
     }
 }

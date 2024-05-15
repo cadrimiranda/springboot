@@ -69,4 +69,10 @@ public class ExerciseSetController extends CRUDController<ExerciseSet, ExerciseS
         ExerciseSet set = service.addExerciseSetupToSet(dto);
         return ResponseEntity.ok(set);
     }
+
+    @DeleteMapping("/{setId}/exercise-setup/{setupId}")
+    public ResponseEntity<String> deleteSetupFromSet(@PathVariable UUID setId, @PathVariable UUID setupId) {
+        service.removeExerciseSetupFromSet(setId, setupId);
+        return ResponseEntity.ok("Deleted exercise setup with id: " + setupId + " from exercise set with id: " + setId);
+    }
 }
