@@ -4,10 +4,12 @@ import com.dietreino.backend.domain.Exercise;
 import com.dietreino.backend.domain.ExerciseSetup;
 import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupFullDTO;
 import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupRequestDTO;
+import com.dietreino.backend.exceptions.IdCannotBeNullWhileFinding;
 import com.dietreino.backend.repositories.ExerciseSetupRepository;
 import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,13 +41,17 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
     public List<ExerciseSetup> convertFullDtoList(List<ExerciseSetupFullDTO> dtoList) {
         List<ExerciseSetup> exerciseSetups = new ArrayList<>();
         for (ExerciseSetupFullDTO dto : dtoList) {
-            ExerciseSetup exerciseSetup = this.findById(dto.id());
-            exerciseSetup.setSeries(dto.series());
-            exerciseSetup.setRepetitions(dto.repetitions());
-            exerciseSetup.setRest(dto.rest());
-            exerciseSetup.setObservation(dto.observation());
-            exerciseSetup.setExercise(exerciseService.findById(dto.exerciseId()));
-            exerciseSetups.add(exerciseSetup);
+            try {
+                ExerciseSetup exerciseSetup = this.repository.findById(dto.id()).orElse(new ExerciseSetup());
+                exerciseSetup.setSeries(dto.series());
+                exerciseSetup.setRepetitions(dto.repetitions());
+                exerciseSetup.setRest(dto.rest());
+                exerciseSetup.setObservation(dto.observation());
+                exerciseSetup.setExercise(exerciseService.findById(dto.exerciseId()));
+                exerciseSetups.add(exerciseSetup);
+            } catch (InvalidDataAccessApiUsageException exception) {
+                throw new IdCannotBeNullWhileFinding("SetupId cannot be null while fetching exercise setup " + dto.series() + " " + dto.repetitions() + " " + dto.rest());
+            }
         }
 
         return exerciseSetups;
@@ -92,18 +98,26 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
     @Override
     public ExerciseSetup findById(UUID id) {
         return repository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Muscular group with id " + id + " not found")
+                new EntityNotFoundException("Exercise setup with id " + id + " not found")
         );
     }
 
     @Override
     public ExerciseSetup update(UUID id, ExerciseSetupRequestDTO exerciseSetupRequestDTO) {
+        if (id == null) {
+            return this.save(exerciseSetupRequestDTO);
+        }
+
         ExerciseSetup exerciseSetup = findById(id);
         validateDto(exerciseSetupRequestDTO);
         exerciseSetup.setSeries(exerciseSetupRequestDTO.series());
         exerciseSetup.setRepetitions(exerciseSetupRequestDTO.repetitions());
         exerciseSetup.setRest(exerciseSetupRequestDTO.rest());
         exerciseSetup.setObservation(exerciseSetupRequestDTO.observation());
+
+        Exercise exercise = exerciseService.findById(exerciseSetupRequestDTO.exerciseId());
+        exerciseSetup.setExercise(exercise);
+
         return repository.save(exerciseSetup);
     }
 
