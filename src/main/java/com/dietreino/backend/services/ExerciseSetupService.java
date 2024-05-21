@@ -42,12 +42,17 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
         List<ExerciseSetup> exerciseSetups = new ArrayList<>();
         for (ExerciseSetupFullDTO dto : dtoList) {
             try {
-                ExerciseSetup exerciseSetup = this.repository.findById(dto.id()).orElse(new ExerciseSetup());
+                UUID setupId = dto.id();
+                ExerciseSetup exerciseSetup = setupId == null ? new ExerciseSetup() : this.findById(dto.id());
                 exerciseSetup.setSeries(dto.series());
                 exerciseSetup.setRepetitions(dto.repetitions());
                 exerciseSetup.setRest(dto.rest());
                 exerciseSetup.setObservation(dto.observation());
+                if (setupId == null) {
+                    exerciseSetup = this.repository.save(exerciseSetup);
+                }
                 exerciseSetup.setExercise(exerciseService.findById(dto.exerciseId()));
+
                 exerciseSetups.add(exerciseSetup);
             } catch (InvalidDataAccessApiUsageException exception) {
                 throw new IdCannotBeNullWhileFinding("SetupId cannot be null while fetching exercise setup " + dto.series() + " " + dto.repetitions() + " " + dto.rest());
