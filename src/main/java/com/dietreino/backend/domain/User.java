@@ -23,8 +23,14 @@ public class User {
     private UUID id;
 
     private String name;
+    private String lastName;
     private String email;
     private String password;
+    private String phone;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "birth_date")
+    private Date dateOfBirth;
 
     // Active workout for the user
     @ManyToOne

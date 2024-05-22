@@ -1,7 +1,6 @@
 package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.AnthropometricReport;
-import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.AnthropometricReportRequestDTO;
 import com.dietreino.backend.exceptions.GenericException;
 import com.dietreino.backend.repositories.AnthropometricReportRepository;
@@ -27,10 +26,7 @@ public class AnthropometricReportService extends CRUDService<AnthropometricRepor
 
     @Override
     public AnthropometricReport convertDto(AnthropometricReportRequestDTO dto) {
-        User user = service.findById(dto.userId());
-
         return AnthropometricReport.builder()
-                .user(user)
                 .reportDate(dto.reportDate())
                 .height(dto.height())
                 .weight(dto.weight())

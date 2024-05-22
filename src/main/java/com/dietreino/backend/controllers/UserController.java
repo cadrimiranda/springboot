@@ -2,6 +2,7 @@ package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.user.UserListActivePlanWorkout;
+import com.dietreino.backend.dto.user.UserResponse;
 import com.dietreino.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<String> getUser(){
-        return ResponseEntity.ok("Success");
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponse> getUser(@PathVariable UUID userId) {
+        UserResponse user = userService.findById(userId);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{userId}/active-workout")

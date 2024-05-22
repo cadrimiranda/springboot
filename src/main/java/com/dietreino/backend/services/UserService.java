@@ -5,6 +5,7 @@ import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.user.UserDTO;
 import com.dietreino.backend.dto.user.UserListActivePlanWorkout;
+import com.dietreino.backend.dto.user.UserResponse;
 import com.dietreino.backend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,21 @@ public class UserService {
         return user;
     }
 
-    public User findById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+    public UserResponse findById(UUID id) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return UserResponse.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .lastName(user.getLastName())
+                .activeWorkoutId(Optional.ofNullable(user.getActiveWorkout()).map(Workout::getId).orElse(null))
+                .planStart(Optional.ofNullable(user.getPlanStart()).map(Object::toString).orElse(null))
+                .birthDate(Optional.ofNullable(user.getDateOfBirth()).map(Object::toString).orElse(null))
+                .planExpiration(Optional.ofNullable(user.getPlanExpiration()).map(Object::toString).orElse(null))
+                .nextAppointment(Optional.ofNullable(user.getNextAppointment()).map(Object::toString).orElse(null))
+                .workoutExpiration(Optional.ofNullable(user.getWorkoutExpiration()).map(Object::toString).orElse(null))
+                .build();
     }
 
     public Optional<Workout> getActiveWorkout(UUID userId) {

@@ -90,10 +90,13 @@ create table user_workout
 create table users
 (
     id                 uuid not null,
+    birth_date         date,
     email              varchar(255),
+    last_name          varchar(255),
     name               varchar(255),
     next_appointment   date,
     password           varchar(255),
+    phone              varchar(255),
     plan_expiration    date,
     plan_start         date,
     workout_expiration date,

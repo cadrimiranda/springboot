@@ -12,6 +12,11 @@ INSERT INTO users (id, email, name, password, active_workout_id)
 VALUES ('22222222-2222-2222-2222-222222222222', 'jane.doe@example.com', 'Personal Trainer', 'encryptedpassword2', null);
 
 INSERT INTO users (id, email, name, password, plan_start, plan_expiration, next_appointment, workout_expiration)
+VALUES ('22222222-2222-2222-2222-222222222223', 'doe.doe@example.com', 'User sem plano', 'encryptedpassword3',
+        '2024-02-17',
+        '2024-4-17', '2024-4-16', '2024-07-12');
+
+INSERT INTO users (id, email, name, password, plan_start, plan_expiration, next_appointment, workout_expiration)
 VALUES ('11111111-1111-1111-1111-111111111111', 'example@domain.com', 'Carlos Adriano',
         '$2a$10$KUT1.LmQPRvek0nbL74pKOn23fKR52.7Cmr6vOtomD5zaoZ8eNC4C', '2024-02-17', '2024-12-17', '2024-06-28',
         '2024-07-12');
@@ -24,6 +29,10 @@ VALUES ('55555555-5555-5555-5555-555555555555', '22222222-2222-2222-2222-2222222
 
 UPDATE users
 SET active_workout_id = '55555555-5555-5555-5555-555555555555'
+WHERE id = '11111111-1111-1111-1111-111111111111';
+
+UPDATE users
+SET active_workout_id = '66666666-6666-6666-6666-666666666666'
 WHERE id = '11111111-1111-1111-1111-111111111111';
 
 -- Insert data into `user_workout` table
