@@ -15,13 +15,11 @@ import java.util.UUID;
 
 @Service
 public class AnthropometricReportService extends CRUDService<AnthropometricReport, AnthropometricReportRequestDTO> {
-    private final UserService service;
     private final AnthropometricReportRepository reportRepository;
 
     @Autowired
-    public AnthropometricReportService(AnthropometricReportRepository repository, UserService service) {
+    public AnthropometricReportService(AnthropometricReportRepository repository) {
         this.reportRepository = repository;
-        this.service = service;
     }
 
     @Override
