@@ -3,13 +3,15 @@ package com.dietreino.backend.services;
 import com.dietreino.backend.domain.User;
 import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.LoginRequestDTO;
-import com.dietreino.backend.dto.UserDTO;
+import com.dietreino.backend.dto.user.UserDTO;
+import com.dietreino.backend.dto.user.UserListActivePlanWorkout;
 import com.dietreino.backend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -85,5 +87,22 @@ public class UserService {
 
     public Optional<Workout> getActiveWorkout(UUID userId) {
         return userRepository.findActiveWorkoutByUserId(userId);
+    }
+
+    public List<UserListActivePlanWorkout> getUsersWithActivePlanAndWorkout() {
+        return userRepository
+                .findActiveUsersWithActiveWorkoutAndPlanActive()
+                .stream()
+                .map(user -> UserListActivePlanWorkout
+                        .builder()
+                        .planExpiration(user.getPlanExpiration().toString())
+                        .planStart(user.getPlanStart().toString())
+                        .workoutExpiration(user.getWorkoutExpiration().toString())
+                        .nextAppointment(user.getNextAppointment().toString())
+                        .id(user.getId())
+                        .name(user.getName())
+                        .build()
+                )
+                .toList();
     }
 }
