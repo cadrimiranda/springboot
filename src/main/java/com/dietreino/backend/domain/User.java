@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public class User {
     // Active workout for the user
     @ManyToOne
     @JoinColumn(name = "active_workout_id")
+    @JsonBackReference
     private Workout activeWorkout;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -38,4 +40,20 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "workout_id") // Column name in join table for Group
     )
     private List<Workout> workouts;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "plan_start")
+    private Date planStart;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "plan_expiration")
+    private Date planExpiration;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "next_appointment")
+    private Date nextAppointment;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "workout_expiration")
+    private Date workoutExpiration;
 }

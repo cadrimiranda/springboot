@@ -11,9 +11,10 @@ VALUES ('aa111111-1111-1111-1111-111111111111', 'Quadriceps'),
 INSERT INTO users (id, email, name, password, active_workout_id)
 VALUES ('22222222-2222-2222-2222-222222222222', 'jane.doe@example.com', 'Personal Trainer', 'encryptedpassword2', null);
 
-INSERT INTO users (id, email, name, password)
+INSERT INTO users (id, email, name, password, plan_start, plan_expiration, next_appointment, workout_expiration)
 VALUES ('11111111-1111-1111-1111-111111111111', 'example@domain.com', 'Carlos Adriano',
-        '$2a$10$KUT1.LmQPRvek0nbL74pKOn23fKR52.7Cmr6vOtomD5zaoZ8eNC4C');
+        '$2a$10$KUT1.LmQPRvek0nbL74pKOn23fKR52.7Cmr6vOtomD5zaoZ8eNC4C', '2024-02-17', '2024-12-17', '2024-06-28',
+        '2024-07-12');
 
 -- Insert data into `workout` table
 INSERT INTO workout (id, created_by_id, name, description)
