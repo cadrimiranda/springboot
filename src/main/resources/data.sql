@@ -33,7 +33,7 @@ WHERE id = '11111111-1111-1111-1111-111111111111';
 
 UPDATE users
 SET active_workout_id = '66666666-6666-6666-6666-666666666666'
-WHERE id = '11111111-1111-1111-1111-111111111111';
+WHERE id = '22222222-2222-2222-2222-222222222223';
 
 -- Insert data into `user_workout` table
 INSERT INTO user_workout (user_id, workout_id)
