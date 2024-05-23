@@ -93,33 +93,7 @@ public class UserService {
                 .build();
     }
 
-    public UserRequestDTO toUserRequestDTO(User user) {
-        return UserRequestDTO.builder()
-                .name(user.getName())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .lastName(user.getLastName())
-                .fullName(user.getName() + ' ' + user.getLastName())
-                .activeWorkoutId(Optional.ofNullable(user.getActiveWorkout()).map(Workout::getId).orElse(null))
-                .planStart(Optional.ofNullable(user.getPlanStart()).map(Object::toString).orElse(null))
-                .birthDate(Optional.ofNullable(user.getDateOfBirth()).map(Object::toString).orElse(null))
-                .planExpiration(Optional.ofNullable(user.getPlanExpiration()).map(Object::toString).orElse(null))
-                .nextAppointment(Optional.ofNullable(user.getNextAppointment()).map(Object::toString).orElse(null))
-                .workoutExpiration(Optional.ofNullable(user.getWorkoutExpiration()).map(Object::toString).orElse(null))
-                .build();
-
-    }
-
-    public void edit(UUID userId, UserRequestDTO userDto) {
-        validateUserDto(userDto);
-        User domainUser = this.getDomainUser(userId);
-        User newUser = mapDtoToEntity(userDto);
-        newUser.setId(domainUser.getId());
-        newUser.setPassword(domainUser.getPassword());
-        this.userRepository.save(newUser);
-    }
-
-    public UserResponse addActiveWorkout(UUID userId, Workout workout) {
+    public void addActiveWorkout(UUID userId, Workout workout) {
         User domainUser = this.getDomainUser(userId);
         domainUser.setActiveWorkout(workout);
 
@@ -127,11 +101,7 @@ public class UserService {
         workouts.add(workout);
         domainUser.setWorkouts(workouts);
 
-        return this.toResponseDTO(userRepository.save(domainUser));
-    }
-
-    public User saveDomainUser(User user) {
-        return this.userRepository.save(user);
+        this.toResponseDTO(userRepository.save(domainUser));
     }
 
     public User save(UserRequestDTO userDTO) {

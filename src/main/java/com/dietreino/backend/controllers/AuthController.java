@@ -26,14 +26,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO body) {
+    public ResponseEntity<String> login(@RequestBody LoginRequestDTO body) {
         User user = userService.verifyPassword(body);
         String token = this.tokenService.generateToken(user);
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserRequestDTO body) {
+    public ResponseEntity<String> register(@RequestBody UserRequestDTO body) {
         User newUser = userService.save(body);
         String token = this.tokenService.generateToken(newUser);
         return ResponseEntity.ok(token);
