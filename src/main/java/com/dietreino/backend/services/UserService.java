@@ -6,6 +6,7 @@ import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.user.UserDTO;
 import com.dietreino.backend.dto.user.UserListActivePlanWorkout;
 import com.dietreino.backend.dto.user.UserResponse;
+import com.dietreino.backend.dto.workout.ActiveWorkout;
 import com.dietreino.backend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,13 +100,14 @@ public class UserService {
                 .build();
     }
 
-    public Optional<Workout> getActiveWorkout(UUID userId) {
-        return userRepository.findActiveWorkoutByUserId(userId);
+    public ActiveWorkout getActiveWorkout(UUID userId) {
+        Optional<Workout> workout = userRepository.findActiveWorkoutByUserId(userId);
+        return ActiveWorkout.builder().workout(workout.orElse(null)).build();
     }
 
     public List<UserListActivePlanWorkout> getUsersWithActivePlanAndWorkout() {
         return userRepository
-                .findActiveUsersWithActiveWorkoutAndPlanActive()
+                .findActiveUsersWithActivePlan()
                 .stream()
                 .map(user -> UserListActivePlanWorkout
                         .builder()

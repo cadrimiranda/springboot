@@ -16,6 +16,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u.activeWorkout FROM User u WHERE u.id = :userId")
     Optional<Workout> findActiveWorkoutByUserId(@Param("userId") UUID userId);
 
-    @Query("SELECT u from User u where u.activeWorkout IS NOT NULL and u.planExpiration > CURRENT_DATE")
-    List<User> findActiveUsersWithActiveWorkoutAndPlanActive();
+    @Query("SELECT u from User u where u.planExpiration > CURRENT_DATE")
+    List<User> findActiveUsersWithActivePlan();
 }

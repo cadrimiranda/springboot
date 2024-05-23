@@ -1,8 +1,8 @@
 package com.dietreino.backend.controllers;
 
-import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.user.UserListActivePlanWorkout;
 import com.dietreino.backend.dto.user.UserResponse;
+import com.dietreino.backend.dto.workout.ActiveWorkout;
 import com.dietreino.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -32,9 +31,9 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/active-workout")
-    public ResponseEntity<Workout> getActiveWorkout(@PathVariable UUID userId) {
-        Optional<Workout> workout = userService.getActiveWorkout(userId);
-        return workout.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ActiveWorkout> getActiveWorkout(@PathVariable UUID userId) {
+        ActiveWorkout workout = userService.getActiveWorkout(userId);
+        return ResponseEntity.ok(workout);
     }
 
     @GetMapping("/active-plan-workout")
