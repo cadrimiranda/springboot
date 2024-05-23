@@ -91,6 +91,7 @@ public class UserService {
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .lastName(user.getLastName())
+                .fullName(user.getName() + ' ' + user.getLastName())
                 .activeWorkoutId(Optional.ofNullable(user.getActiveWorkout()).map(Workout::getId).orElse(null))
                 .planStart(Optional.ofNullable(user.getPlanStart()).map(Object::toString).orElse(null))
                 .birthDate(Optional.ofNullable(user.getDateOfBirth()).map(Object::toString).orElse(null))
