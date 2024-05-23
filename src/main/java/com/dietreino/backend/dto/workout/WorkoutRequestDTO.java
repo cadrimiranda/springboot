@@ -1,4 +1,7 @@
 package com.dietreino.backend.dto.workout;
 
-public record WorkoutRequestDTO (String name, String description){
+import java.util.Date;
+import java.util.UUID;
+
+public record WorkoutRequestDTO(String name, String description, UUID userToAssign, Date startDate, Date endDate) {
 }

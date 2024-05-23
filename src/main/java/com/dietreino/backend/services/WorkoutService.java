@@ -2,6 +2,7 @@ package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.ExerciseSet;
 import com.dietreino.backend.domain.ExerciseSetup;
+import com.dietreino.backend.domain.User;
 import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetRequestDTO;
@@ -25,22 +26,28 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
     private final ExerciseSetService exerciseSetService;
     private final WorkoutRepository workoutRepository;
     private final ExerciseSetupService exerciseSetupService;
+    private final UserService userService;
     private final List<String> fields = List.of("Name", "Description");
 
     @Autowired
-    public WorkoutService(WorkoutRepository workoutRepository, ExerciseSetService exerciseSetService, ExerciseSetupService exerciseSetupService) {
+    public WorkoutService(WorkoutRepository workoutRepository, ExerciseSetService exerciseSetService,
+                          ExerciseSetupService exerciseSetupService, UserService userService) {
         this.workoutRepository = workoutRepository;
         this.exerciseSetService = exerciseSetService;
         this.exerciseSetupService = exerciseSetupService;
+        this.userService = userService;
     }
 
     @Override
-    public Workout convertDto(WorkoutRequestDTO workoutRequestDTO) {
-        validateDto(workoutRequestDTO);
-        Workout workout = new Workout();
-        workout.setName(workoutRequestDTO.name());
-        workout.setDescription(workoutRequestDTO.description());
-        return workout;
+    public Workout convertDto(WorkoutRequestDTO dto) {
+        validateDto(dto);
+        return Workout.builder()
+                .name(dto.name())
+                .description(dto.description())
+                .startDate(dto.startDate())
+                .endDate(dto.endDate())
+                .exerciseSets(new ArrayList<>())
+                .build();
     }
 
     @Override
@@ -60,6 +67,17 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
     public Workout save(WorkoutRequestDTO workoutRequestDTO) {
         Workout workout = convertDto(workoutRequestDTO);
         return workoutRepository.save(workout);
+    }
+
+    @Transactional
+    public Workout save(WorkoutRequestDTO workoutRequestDTO, UUID userRequestId) {
+        User creationUser = userService.getDomainUser(userRequestId);
+        Workout workout = convertDto(workoutRequestDTO);
+        workout.setCreatedBy(creationUser);
+        Workout savedWorkout = workoutRepository.save(workout);
+
+        this.userService.addActiveWorkout(workoutRequestDTO.userToAssign(), savedWorkout);
+        return savedWorkout;
     }
 
     @Override

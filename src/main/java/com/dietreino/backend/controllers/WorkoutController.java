@@ -5,6 +5,7 @@ import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
 import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
 import com.dietreino.backend.services.WorkoutService;
 import com.dietreino.backend.utils.CRUDController;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,14 @@ public class WorkoutController extends CRUDController<Workout, WorkoutRequestDTO
     }
 
     @Override
+    public ResponseEntity<Workout> create(WorkoutRequestDTO workoutRequestDTO) {
+        return null;
+    }
+
     @PostMapping
-    public ResponseEntity<Workout> create(@RequestBody WorkoutRequestDTO workoutRequestDTO) {
-        Workout workout = service.save(workoutRequestDTO);
+    public ResponseEntity<Workout> create(HttpServletRequest request, @RequestBody WorkoutRequestDTO workoutRequestDTO) {
+        UUID userRequestId = (UUID) request.getAttribute("user_id");
+        Workout workout = service.save(workoutRequestDTO, userRequestId);
         return ResponseEntity.ok(workout);
     }
 

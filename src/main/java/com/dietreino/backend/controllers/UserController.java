@@ -1,8 +1,8 @@
 package com.dietreino.backend.controllers;
 
+import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.user.UserListActivePlanWorkout;
 import com.dietreino.backend.dto.user.UserResponse;
-import com.dietreino.backend.dto.workout.ActiveWorkout;
 import com.dietreino.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/active-workout")
-    public ResponseEntity<ActiveWorkout> getActiveWorkout(@PathVariable UUID userId) {
-        ActiveWorkout workout = userService.getActiveWorkout(userId);
+    public ResponseEntity<Workout> getActiveWorkout(@PathVariable UUID userId) {
+        Workout workout = userService.getActiveWorkout(userId);
         return ResponseEntity.ok(workout);
     }
 

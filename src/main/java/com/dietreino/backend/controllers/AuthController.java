@@ -2,7 +2,7 @@ package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
-import com.dietreino.backend.dto.user.UserDTO;
+import com.dietreino.backend.dto.user.UserRequestDTO;
 import com.dietreino.backend.services.TokenService;
 import com.dietreino.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserDTO body) {
+    public ResponseEntity register(@RequestBody UserRequestDTO body) {
         User newUser = userService.save(body);
         String token = this.tokenService.generateToken(newUser);
         return ResponseEntity.ok(token);

@@ -108,7 +108,9 @@ create table workout
 (
     id            uuid not null,
     description   varchar(255),
+    end_date      date,
     name          varchar(255),
+    start_date    date,
     created_by_id uuid,
     primary key (id)
 );
