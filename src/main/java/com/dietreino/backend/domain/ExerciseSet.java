@@ -23,7 +23,7 @@ public class ExerciseSet {
     private String name;
     private String description;
 
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "set_setup",
             joinColumns = @JoinColumn(name = "exercise_set_id"),

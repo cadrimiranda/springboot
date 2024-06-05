@@ -62,8 +62,8 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         if (exerciseSetRequestDTO.name() == null || exerciseSetRequestDTO.name().length() < 3) {
             throw new IllegalArgumentException("Name must be at least 3 characters long and not null");
         }
-        if (exerciseSetRequestDTO.description() == null || exerciseSetRequestDTO.description().length() < 5) {
-            throw new IllegalArgumentException("Description must be at least 5 characters long and not null");
+        if (exerciseSetRequestDTO.description() == null) {
+            throw new IllegalArgumentException("Description can not be null");
         }
     }
 
@@ -72,7 +72,7 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         try {
             return exerciseSetRepository.save(convertDto(t));
         } catch (IllegalArgumentException ex) {
-            throw new GenericException("Error while saving Exercise Set: " + t, ex.getCause());
+            throw new GenericException("Error while saving Exercise Set: " + t + " " + ex.getMessage(), ex.getCause());
         } catch (Exception e) {
             throw new GenericException("Unexpected error while saving Exercise Set: " + t, e.getCause());
         }
