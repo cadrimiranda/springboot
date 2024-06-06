@@ -6,6 +6,7 @@ import com.dietreino.backend.dto.LoginRequestDTO;
 import com.dietreino.backend.dto.user.UserListActivePlanWorkout;
 import com.dietreino.backend.dto.user.UserRequestDTO;
 import com.dietreino.backend.dto.user.UserResponse;
+import com.dietreino.backend.exceptions.WorkoutWithoutUser;
 import com.dietreino.backend.repositories.UserRepository;
 import com.dietreino.backend.utils.DateUtils;
 import jakarta.persistence.EntityNotFoundException;
@@ -153,5 +154,17 @@ public class UserService {
                         .build()
                 )
                 .toList();
+    }
+
+    public void removeUserWorkout(UUID workoutId) {
+        Optional<User> user = userRepository.findUserByActiveWorkoutId(workoutId);
+        if (user.isEmpty()) {
+            throw new WorkoutWithoutUser(workoutId);
+        }
+
+        User userWorkout = user.get();
+        userWorkout.setActiveWorkout(null);
+        userWorkout.getWorkouts().removeIf(w -> w.getId().equals(workoutId));
+        userRepository.save(userWorkout);
     }
 }

@@ -106,6 +106,7 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
 
     @Override
     public void delete(UUID id) {
+        userService.removeUserWorkout(id);
         workoutRepository.deleteById(id);
     }
 
