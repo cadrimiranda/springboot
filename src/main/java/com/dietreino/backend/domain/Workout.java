@@ -30,12 +30,11 @@ public class Workout  {
     @Column(name = "end_date")
     private Date endDate;
 
-    // User who created the workout
     @ManyToOne
     @JoinColumn(name = "created_by_id")
     private User createdBy;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "workout_id")
     private List<ExerciseSet> exerciseSets;
 }
