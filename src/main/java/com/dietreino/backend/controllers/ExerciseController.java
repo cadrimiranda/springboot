@@ -1,8 +1,7 @@
 package com.dietreino.backend.controllers;
 
-import com.dietreino.backend.domain.Exercise;
 import com.dietreino.backend.dto.exercise.ExerciseAutocompleteDTO;
-import com.dietreino.backend.dto.exercise.ExerciseRequestDTO;
+import com.dietreino.backend.dto.exercise.ExerciseDTO;
 import com.dietreino.backend.services.ExerciseService;
 import com.dietreino.backend.utils.CRUDController;
 import jakarta.validation.Valid;
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/exercise")
-public class ExerciseController extends CRUDController<Exercise, ExerciseRequestDTO> {
+public class ExerciseController extends CRUDController<ExerciseDTO, ExerciseDTO> {
     private final ExerciseService service;
 
     @Autowired
@@ -25,8 +24,8 @@ public class ExerciseController extends CRUDController<Exercise, ExerciseRequest
 
     @GetMapping("/byId/{id}")
     @Override
-    public ResponseEntity<Exercise> getById(@PathVariable UUID id) {
-        Exercise exercise = service.findById(id);
+    public ResponseEntity<ExerciseDTO> getById(@PathVariable UUID id) {
+        ExerciseDTO exercise = service.findById(id);
         return ResponseEntity.ok(exercise);
     }
 
@@ -38,20 +37,20 @@ public class ExerciseController extends CRUDController<Exercise, ExerciseRequest
 
     @PostMapping
     @Override
-    public ResponseEntity<Exercise> create(@Valid @RequestBody ExerciseRequestDTO body) {
-        Exercise exercise = service.save(body);
+    public ResponseEntity<ExerciseDTO> create(@Valid @RequestBody ExerciseDTO body) {
+        ExerciseDTO exercise = service.save(body);
         return ResponseEntity.ok(exercise);
     }
 
     @Override
-    @PostMapping("/getall")
-    public ResponseEntity<List<Exercise>> getAll() {
-        List<Exercise> list = service.findAll();
+    @GetMapping("/getall")
+    public ResponseEntity<List<ExerciseDTO>> getAll() {
+        List<ExerciseDTO> list = service.findAll();
         return ResponseEntity.ok(list);
     }
 
     @Override
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOne(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.ok("Deleted exercise with id: " + id);
@@ -59,8 +58,8 @@ public class ExerciseController extends CRUDController<Exercise, ExerciseRequest
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Exercise> update(@PathVariable UUID id, @Valid @RequestBody ExerciseRequestDTO body) {
-        Exercise exercise = service.update(id, body);
+    public ResponseEntity<ExerciseDTO> update(@PathVariable UUID id, @Valid @RequestBody ExerciseDTO body) {
+        ExerciseDTO exercise = service.update(id, body);
         return ResponseEntity.ok(exercise);
     }
 }

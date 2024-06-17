@@ -38,16 +38,16 @@ create table anthropometric_report
     users_id                           uuid      not null,
     primary key (id)
 );
-
 create table exercise
 (
     id                uuid        not null,
     description       varchar(255),
+    image             varchar(255),
     name              varchar(56) not null,
+    url               varchar(255),
     muscular_group_id uuid        not null,
     primary key (id)
 );
-
 create table exercise_set
 (
     id          uuid not null,
@@ -56,7 +56,6 @@ create table exercise_set
     workout_id  uuid,
     primary key (id)
 );
-
 create table exercise_setup
 (
     id          uuid not null,
@@ -67,26 +66,22 @@ create table exercise_setup
     exercise_id uuid,
     primary key (id)
 );
-
 create table muscular_group
 (
     id   uuid not null,
     name varchar(255),
     primary key (id)
 );
-
 create table set_setup
 (
     exercise_set_id   uuid not null,
     exercise_setup_id uuid not null
 );
-
 create table user_workout
 (
     user_id    uuid not null,
     workout_id uuid not null
 );
-
 create table users
 (
     id                 uuid not null,
@@ -103,7 +98,6 @@ create table users
     active_workout_id  uuid,
     primary key (id)
 );
-
 create table workout
 (
     id            uuid not null,
@@ -114,53 +108,13 @@ create table workout
     created_by_id uuid,
     primary key (id)
 );
-
-alter table if exists anthropometric_report
-    add constraint FKfc21ne651huxw9yc6dy4femig
-    foreign key (users_id)
-    references users;
-
-alter table if exists exercise
-    add constraint FKdhly9nwp8agqc8e1k4e1h2vt6
-    foreign key (muscular_group_id)
-    references muscular_group;
-
-alter table if exists exercise_set
-    add constraint FKhahvdyx4s9kxgjj163cb67qj7
-    foreign key (workout_id)
-    references workout;
-
-alter table if exists exercise_setup
-    add constraint FKkmwm8mr90kshiyab3qvfhb1ug
-    foreign key (exercise_id)
-    references exercise;
-
-alter table if exists set_setup
-    add constraint FKldwse75jicssm7hv2ndsxv3jr
-    foreign key (exercise_setup_id)
-    references exercise_setup;
-
-alter table if exists set_setup
-    add constraint FKrk82rw83m5c0vswm8afsiesmb
-    foreign key (exercise_set_id)
-    references exercise_set;
-
-alter table if exists user_workout
-    add constraint FK8ijj3n51qashihgce2xp61r5t
-    foreign key (workout_id)
-    references workout;
-
-alter table if exists user_workout
-    add constraint FKdtpk4f8xe1dbf40bq3gkmageb
-    foreign key (user_id)
-    references users;
-
-alter table if exists users
-    add constraint FKmccddlum1f6tmdre7vnx6ilaa
-    foreign key (active_workout_id)
-    references workout;
-
-alter table if exists workout
-    add constraint FKlfu214l35p571pvmwwu9okowh
-    foreign key (created_by_id)
-    references users;
+alter table if exists anthropometric_report add constraint FKfc21ne651huxw9yc6dy4femig foreign key (users_id) references users;
+alter table if exists exercise add constraint FKdhly9nwp8agqc8e1k4e1h2vt6 foreign key (muscular_group_id) references muscular_group;
+alter table if exists exercise_set add constraint FKhahvdyx4s9kxgjj163cb67qj7 foreign key (workout_id) references workout;
+alter table if exists exercise_setup add constraint FKkmwm8mr90kshiyab3qvfhb1ug foreign key (exercise_id) references exercise;
+alter table if exists set_setup add constraint FKldwse75jicssm7hv2ndsxv3jr foreign key (exercise_setup_id) references exercise_setup;
+alter table if exists set_setup add constraint FKrk82rw83m5c0vswm8afsiesmb foreign key (exercise_set_id) references exercise_set;
+alter table if exists user_workout add constraint FK8ijj3n51qashihgce2xp61r5t foreign key (workout_id) references workout;
+alter table if exists user_workout add constraint FKdtpk4f8xe1dbf40bq3gkmageb foreign key (user_id) references users;
+alter table if exists users add constraint FKmccddlum1f6tmdre7vnx6ilaa foreign key (active_workout_id) references workout;
+alter table if exists workout add constraint FKlfu214l35p571pvmwwu9okowh foreign key (created_by_id) references users;
