@@ -51,7 +51,7 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
                 if (setupId == null) {
                     exerciseSetup = this.repository.save(exerciseSetup);
                 }
-                exerciseSetup.setExercise(exerciseService.findById(dto.exerciseId()));
+                exerciseSetup.setExercise(exerciseService.findDomainById(dto.exerciseId()));
 
                 exerciseSetups.add(exerciseSetup);
             } catch (InvalidDataAccessApiUsageException exception) {
@@ -88,7 +88,7 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
     @Override
     public ExerciseSetup save(ExerciseSetupRequestDTO dto) {
         validateDto(dto);
-        Exercise exercise = exerciseService.findById(dto.exerciseId());
+        Exercise exercise = exerciseService.findDomainById(dto.exerciseId());
         ExerciseSetup exerciseSetup = convertDto(dto);
         exerciseSetup.setExercise(exercise);
 
@@ -120,7 +120,7 @@ public class ExerciseSetupService extends CRUDService<ExerciseSetup, ExerciseSet
         exerciseSetup.setRest(exerciseSetupRequestDTO.rest());
         exerciseSetup.setObservation(exerciseSetupRequestDTO.observation());
 
-        Exercise exercise = exerciseService.findById(exerciseSetupRequestDTO.exerciseId());
+        Exercise exercise = exerciseService.findDomainById(exerciseSetupRequestDTO.exerciseId());
         exerciseSetup.setExercise(exercise);
 
         return repository.save(exerciseSetup);

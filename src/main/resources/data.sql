@@ -1,11 +1,13 @@
 -- Insert data into `muscular_group` table
 INSERT INTO muscular_group (id, name)
-VALUES ('aa111111-1111-1111-1111-111111111111', 'Quadriceps'),
-       ('aa222222-2222-2222-2222-222222222222', 'Posterior de Perna'),
-       ('aa333333-3333-3333-3333-333333333333', 'Biceps'),
-       ('aa444444-4444-4444-4444-444444444444', 'Triceps'),
-       ('aa555555-5555-5555-5555-555555555555', 'Ombro'),
-       ('aa666666-6666-6666-6666-666666666666', 'Peito');
+VALUES ('aa111111-1111-1111-1111-111111111111', 'QUADRICEPS'),
+       ('aa222222-2222-2222-2222-222222222222', 'HAMSTRINGS'),
+       ('aa333333-3333-3333-3333-333333333333', 'BICEPS'),
+       ('aa444444-4444-4444-4444-444444444444', 'TRICEPS'),
+       ('aa555555-5555-5555-5555-555555555555', 'SHOULDERS'),
+       ('aa555555-5555-5555-5554-455555555555', 'ABS'),
+       ('aa555555-5555-5555-4444-555555555555', 'CALVES'),
+       ('aa666666-6666-6666-6666-666666666666', 'CHEST');
 
 -- noinspection SqlNoDataSourceInspection
 INSERT INTO users (id, email, name, last_name, password, active_workout_id)

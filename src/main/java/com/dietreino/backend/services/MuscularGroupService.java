@@ -4,6 +4,7 @@ import com.dietreino.backend.domain.MuscularGroup;
 import com.dietreino.backend.dto.MuscularGroup.MuscularGroupRequestDTO;
 import com.dietreino.backend.repositories.MuscularGroupRepository;
 import com.dietreino.backend.utils.CRUDService;
+import com.dietreino.backend.utils.GroupMuscularEnum;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,12 @@ public class MuscularGroupService extends CRUDService<MuscularGroup, MuscularGro
                 .orElseThrow(() ->
                         new EntityNotFoundException("Muscular group with id " + id + " not found")
                 );
+    }
+
+    public MuscularGroup findByName(GroupMuscularEnum name) {
+        return muscularGroupRepository.findReferenceByName(name.toString()).orElseThrow(() ->
+                new EntityNotFoundException("Muscular group with name " + name + " not found")
+        );
     }
 
     @Override

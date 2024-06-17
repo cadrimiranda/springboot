@@ -1,57 +1,80 @@
 package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.Exercise;
+import com.dietreino.backend.domain.ExerciseSetup;
+import com.dietreino.backend.domain.MuscularGroup;
 import com.dietreino.backend.dto.exercise.ExerciseAutocompleteDTO;
-import com.dietreino.backend.dto.exercise.ExerciseRequestDTO;
+import com.dietreino.backend.dto.exercise.ExerciseDTO;
+import com.dietreino.backend.exceptions.CannotDeleteExerciseInsideSetups;
 import com.dietreino.backend.repositories.ExerciseRepository;
-import com.dietreino.backend.utils.CRUDService;
+import com.dietreino.backend.repositories.ExerciseSetupRepository;
+import com.dietreino.backend.utils.GroupMuscularEnum;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class ExerciseService extends CRUDService<Exercise, ExerciseRequestDTO> {
+public class ExerciseService {
     private final ExerciseRepository exerciseRepository;
+    private final ExerciseSetupRepository setupRepository;
+    private final MuscularGroupService muscularGroupService;
 
     @Autowired
-    public ExerciseService(ExerciseRepository exerciseRepository) {
+    public ExerciseService(ExerciseRepository exerciseRepository, ExerciseSetupRepository setupRepository, MuscularGroupService muscularGroupService) {
         this.exerciseRepository = exerciseRepository;
+        this.setupRepository = setupRepository;
+        this.muscularGroupService = muscularGroupService;
     }
 
-    @Override
-    public Exercise convertDto(ExerciseRequestDTO exerciseRequestDTO) {
-        Exercise exercise = new Exercise();
-        exercise.setName(exerciseRequestDTO.name());
-        exercise.setDescription(exerciseRequestDTO.description());
-        return exercise;
+    public ExerciseDTO domainToDTO(Exercise exercise) {
+        return ExerciseDTO.builder()
+                .id(exercise.getId())
+                .name(exercise.getName())
+                .description(exercise.getDescription())
+                .url(exercise.getUrl())
+                .muscularGroup(GroupMuscularEnum.valueOf(exercise.getMuscularGroup().getName()))
+                .build();
     }
 
-    @Override
-    public void validateDto(ExerciseRequestDTO exerciseRequestDTO) {
+    public Exercise convertDto(ExerciseDTO exerciseRequestDTO) {
+        MuscularGroup muscularGroup = muscularGroupService.findByName(exerciseRequestDTO.muscularGroup());
+
+        return Exercise.builder()
+                .id(exerciseRequestDTO.id())
+                .name(exerciseRequestDTO.name())
+                .description(exerciseRequestDTO.description())
+                .url(exerciseRequestDTO.url())
+                .image(exerciseRequestDTO.image())
+                .muscularGroup(muscularGroup)
+                .build();
+    }
+
+    public void validateDto(ExerciseDTO exerciseRequestDTO) {
         if (exerciseRequestDTO.name().length() < 3) {
             throw new IllegalArgumentException("Name must be at least 3 characters");
         }
     }
 
-    @Override
-    public Exercise save(ExerciseRequestDTO t) {
+    public ExerciseDTO save(ExerciseDTO t) {
         validateDto(t);
         Exercise exercise = convertDto(t);
-        return exerciseRepository.save(exercise);
+        return this.domainToDTO(exerciseRepository.save(exercise));
     }
 
-    @Override
-    public List<Exercise> findAll() {
-        return exerciseRepository.findAll();
+    public List<ExerciseDTO> findAll() {
+        return exerciseRepository
+                .findAll()
+                .stream()
+                .map(this::domainToDTO)
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public Exercise findById(UUID id) {
+    public Exercise findDomainById(UUID id) {
         return exerciseRepository
                 .findById(id)
                 .orElseThrow(() ->
@@ -59,22 +82,36 @@ public class ExerciseService extends CRUDService<Exercise, ExerciseRequestDTO> {
                 );
     }
 
-    @Override
-    public Exercise update(UUID id, ExerciseRequestDTO exerciseRequestDTO) {
-        Exercise exercise = this.findById(id);
-        exercise.setName(exerciseRequestDTO.name());
-        exercise.setDescription(exerciseRequestDTO.description());
-        return exerciseRepository.save(exercise);
+    public ExerciseDTO findById(UUID id) {
+        Exercise exercise = this.findDomainById(id);
+        return this.domainToDTO(exercise);
     }
 
-    @Override
-    public List<Exercise> findByCriteria(Map<String, String> criteria) {
-        return exerciseRepository.findByNameContainingIgnoreCase(criteria.get("name"));
+    @Transactional
+    public ExerciseDTO update(UUID id, ExerciseDTO dto) {
+        Exercise exercise = this.findDomainById(id);
+        MuscularGroup muscularGroup = muscularGroupService.findByName(dto.muscularGroup());
+
+        exercise.setName(dto.name());
+        exercise.setDescription(dto.description());
+        exercise.setUrl(dto.url());
+        exercise.setImage(dto.image());
+        exercise.setMuscularGroup(muscularGroup);
+
+        return domainToDTO(exerciseRepository.save(exercise));
     }
 
-    @Override
+    private Boolean existSetupsByExercise(UUID exerciseId) {
+        List<ExerciseSetup> setups = setupRepository.findAllByExerciseId(exerciseId);
+        return !setups.isEmpty();
+    }
+
     public void delete(UUID id) {
-        Exercise exercise = this.findById(id);
+        if (this.existSetupsByExercise(id)) {
+            throw new CannotDeleteExerciseInsideSetups();
+        }
+
+        Exercise exercise = this.findDomainById(id);
         exerciseRepository.delete(exercise);
     }
 

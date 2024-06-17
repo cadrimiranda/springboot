@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface ExerciseSetupRepository extends JpaRepository<ExerciseSetup, UUID> {
     List<ExerciseSetup> findByExerciseNameLike(String name);
+
+    List<ExerciseSetup> findAllByExerciseId(UUID id);
 }
