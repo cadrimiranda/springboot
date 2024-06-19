@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/musculargroup")
-public class MuscularGroupController extends CRUDController<MuscularGroup, MuscularGroupRequestDTO> {
+public class MuscularGroupController extends CRUDController<MuscularGroup, MuscularGroupRequestDTO, MuscularGroupRequestDTO> {
     private final MuscularGroupService muscularGroupService;
 
     @Autowired

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/exercisesetup")
-public class ExerciseSetupController extends CRUDController<ExerciseSetup, ExerciseSetupRequestDTO> {
+public class ExerciseSetupController extends CRUDController<ExerciseSetup, ExerciseSetupRequestDTO, ExerciseSetupRequestDTO> {
     private final ExerciseSetupService service;
 
     @Autowired

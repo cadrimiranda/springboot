@@ -31,10 +31,11 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'example@domain.com', 'Carlos Ad
         '2024-07-12');
 
 -- Insert data into `workout` table
-INSERT INTO workout (id, created_by_id, name, description)
-VALUES ('55555555-5555-5555-5555-555555555555', '22222222-2222-2222-2222-222222222222', 'Base.3', 'Peso com controle'),
+INSERT INTO workout (id, created_by_id, name, description, start_date, end_date)
+VALUES ('55555555-5555-5555-5555-555555555555', '22222222-2222-2222-2222-222222222222', 'Base.3', 'Peso com controle',
+        '2024-05-01', '2024-10-25'),
        ('66666666-6666-6666-6666-666666666666', '22222222-2222-2222-2222-222222222222', 'Evening Routine',
-        'A relaxing evening workout routine');
+        'A relaxing evening workout routine', '2024-05-01', '2024-10-25');
 
 UPDATE users
 SET active_workout_id = '55555555-5555-5555-5555-555555555555'
