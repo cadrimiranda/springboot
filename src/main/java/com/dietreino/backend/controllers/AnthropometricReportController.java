@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/anthropometricreport")
-public class AnthropometricReportController extends CRUDController<AnthropometricReport, AnthropometricReportRequestDTO> {
+public class AnthropometricReportController extends CRUDController<AnthropometricReport, AnthropometricReportRequestDTO, AnthropometricReportRequestDTO> {
     private final AnthropometricReportService service;
 
     @Autowired

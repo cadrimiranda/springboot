@@ -2,6 +2,7 @@ package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
+import com.dietreino.backend.dto.workout.WorkoutPutRequestDTO;
 import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
 import com.dietreino.backend.services.WorkoutService;
 import com.dietreino.backend.utils.CRUDController;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/workout")
-public class WorkoutController extends CRUDController<Workout, WorkoutRequestDTO> {
+public class WorkoutController extends CRUDController<Workout, WorkoutRequestDTO, WorkoutPutRequestDTO> {
     private final WorkoutService service;
 
     @Autowired
@@ -45,8 +46,8 @@ public class WorkoutController extends CRUDController<Workout, WorkoutRequestDTO
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Workout> update(@PathVariable UUID id, @RequestBody WorkoutRequestDTO workoutRequestDTO) {
-        Workout workout = service.update(id, workoutRequestDTO);
+    public ResponseEntity<Workout> update(@PathVariable UUID id, @RequestBody WorkoutPutRequestDTO requestDTO) {
+        Workout workout = service.update(id, requestDTO);
         return ResponseEntity.ok(workout);
     }
 

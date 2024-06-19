@@ -8,6 +8,7 @@ import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetRequestDTO;
 import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupFullDTO;
 import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupRequestDTO;
+import com.dietreino.backend.dto.workout.WorkoutPutRequestDTO;
 import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
 import com.dietreino.backend.repositories.WorkoutRepository;
 import com.dietreino.backend.utils.CRUDService;
@@ -92,11 +93,15 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
 
     @Override
     public Workout update(UUID id, WorkoutRequestDTO workoutRequestDTO) {
-        Workout existingWorkout = findById(id);
-        existingWorkout.setName(workoutRequestDTO.name());
-        existingWorkout.setDescription(workoutRequestDTO.description());
-        workoutRepository.save(existingWorkout);
-        return existingWorkout;
+        return null;
+    }
+
+    public Workout update(UUID id, WorkoutPutRequestDTO workoutRequestDTO) {
+        Workout workout = findById(id);
+        workout.setName(workoutRequestDTO.name());
+        workout.setDescription(workoutRequestDTO.description());
+        workout.setEndDate(workoutRequestDTO.endDate());
+        return workoutRepository.save(workout);
     }
 
     @Override
