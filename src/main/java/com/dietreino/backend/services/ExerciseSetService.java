@@ -30,19 +30,21 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
     }
 
     @Override
-    public ExerciseSet convertDto(ExerciseSetRequestDTO exerciseSetRequestDTO) {
-        validateDto(exerciseSetRequestDTO);
-        ExerciseSet exerciseSet = new ExerciseSet();
-        exerciseSet.setName(exerciseSetRequestDTO.name());
-        exerciseSet.setDescription(exerciseSetRequestDTO.description());
-
-        return exerciseSet;
+    public ExerciseSet convertDto(ExerciseSetRequestDTO dto) {
+        validateDto(dto);
+        return ExerciseSet
+                .builder()
+                .day(dto.day())
+                .description(dto.description())
+                .name(dto.name())
+                .build();
     }
 
     public ExerciseSet convertFullDTO(ExerciseSetFullSetupDTO dto) {
         ExerciseSet exerciseSet = exerciseSetRepository.findById(dto.id()).orElse(new ExerciseSet());
         exerciseSet.setName(dto.name());
         exerciseSet.setDescription(dto.description());
+        exerciseSet.setDay(dto.day());
         List<ExerciseSetup> exerciseSetups = exerciseSetupService.convertFullDtoList(dto.exerciseSetupList());
         exerciseSet.setExerciseSetupList(exerciseSetups);
         return exerciseSet;
@@ -101,6 +103,7 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         ExerciseSet exerciseSet = findById(id);
         exerciseSet.setName(exerciseSetRequestDTO.name());
         exerciseSet.setDescription(exerciseSetRequestDTO.description());
+        exerciseSet.setDay(exerciseSetRequestDTO.day());
         exerciseSetRepository.save(exerciseSet);
         return exerciseSet;
     }

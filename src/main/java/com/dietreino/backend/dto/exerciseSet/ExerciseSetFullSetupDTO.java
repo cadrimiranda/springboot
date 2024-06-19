@@ -1,10 +1,13 @@
 package com.dietreino.backend.dto.exerciseSet;
 
 import com.dietreino.backend.dto.exerciseSetup.ExerciseSetupFullDTO;
+import com.dietreino.backend.utils.WeekDays;
+import lombok.Builder;
 
 import java.util.List;
 import java.util.UUID;
 
-public record ExerciseSetFullSetupDTO(UUID id, String name, String description,
+@Builder
+public record ExerciseSetFullSetupDTO(UUID id, String name, String description, WeekDays day,
                                       List<ExerciseSetupFullDTO> exerciseSetupList) {
 }

@@ -1,7 +1,6 @@
 package com.dietreino.backend.services;
 
 import com.dietreino.backend.domain.ExerciseSet;
-import com.dietreino.backend.domain.ExerciseSetup;
 import com.dietreino.backend.domain.User;
 import com.dietreino.backend.domain.Workout;
 import com.dietreino.backend.dto.exerciseSet.ExerciseSetFullSetupDTO;
@@ -113,14 +112,30 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
     @Transactional
     public Workout addSetToWorkout(UUID workoutID, ExerciseSetFullSetupDTO setDto) {
         Workout workout = findById(workoutID);
-        ExerciseSetRequestDTO exerciseSetRequestDTO = new ExerciseSetRequestDTO(setDto.name(), setDto.description());
+        ExerciseSetRequestDTO exerciseSetRequestDTO =
+                ExerciseSetRequestDTO
+                        .builder()
+                        .name(setDto.name())
+                        .description(setDto.description())
+                        .day(setDto.day())
+                        .build();
+
         ExerciseSet exerciseSet = exerciseSetService.save(exerciseSetRequestDTO);
         exerciseSet.setExerciseSetupList(new ArrayList<>());
+
         for (ExerciseSetupFullDTO setupDto : setDto.exerciseSetupList()) {
-            ExerciseSetupRequestDTO exerciseSetupRequestDTO = new ExerciseSetupRequestDTO(setupDto.exerciseId(), setupDto.series(), setupDto.repetitions(), setupDto.rest(), setupDto.observation());
-            ExerciseSetup exerciseSetup = exerciseSetupService.save(exerciseSetupRequestDTO);
-            exerciseSet.getExerciseSetupList().add(exerciseSetup);
+            exerciseSet.getExerciseSetupList().add(exerciseSetupService.save(
+                    ExerciseSetupRequestDTO
+                            .builder()
+                            .exerciseId(setupDto.exerciseId())
+                            .series(setupDto.series())
+                            .repetitions(setupDto.repetitions())
+                            .rest(setupDto.rest())
+                            .observation(setupDto.observation())
+                            .build()
+            ));
         }
+
         workout.getExerciseSets().add(exerciseSet);
         return workoutRepository.save(workout);
     }
