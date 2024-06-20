@@ -51,6 +51,7 @@ create table exercise
 create table exercise_set
 (
     id          uuid not null,
+    week_day    tinyint check (week_day between 0 and 6),
     description varchar(255),
     name        varchar(255),
     workout_id  uuid,

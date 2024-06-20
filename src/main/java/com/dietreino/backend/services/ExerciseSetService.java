@@ -34,7 +34,7 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         validateDto(dto);
         return ExerciseSet
                 .builder()
-                .day(dto.day())
+                .weekDay(dto.weekDay())
                 .description(dto.description())
                 .name(dto.name())
                 .build();
@@ -44,7 +44,7 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         ExerciseSet exerciseSet = exerciseSetRepository.findById(dto.id()).orElse(new ExerciseSet());
         exerciseSet.setName(dto.name());
         exerciseSet.setDescription(dto.description());
-        exerciseSet.setDay(dto.day());
+        exerciseSet.setWeekDay(dto.weekDay());
         List<ExerciseSetup> exerciseSetups = exerciseSetupService.convertFullDtoList(dto.exerciseSetupList());
         exerciseSet.setExerciseSetupList(exerciseSetups);
         return exerciseSet;
@@ -103,7 +103,7 @@ public class ExerciseSetService extends CRUDService<ExerciseSet, ExerciseSetRequ
         ExerciseSet exerciseSet = findById(id);
         exerciseSet.setName(exerciseSetRequestDTO.name());
         exerciseSet.setDescription(exerciseSetRequestDTO.description());
-        exerciseSet.setDay(exerciseSetRequestDTO.day());
+        exerciseSet.setWeekDay(exerciseSetRequestDTO.weekDay());
         exerciseSetRepository.save(exerciseSet);
         return exerciseSet;
     }

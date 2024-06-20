@@ -51,11 +51,11 @@ VALUES ('11111111-1111-1111-1111-111111111111', '55555555-5555-5555-5555-5555555
        ('11111111-1111-1111-1111-111111111111', '66666666-6666-6666-6666-666666666666');
 
 -- Insert data into `exercise_set` table
-INSERT INTO exercise_set (id, workout_id, name, description)
+INSERT INTO exercise_set (id, workout_id, name, description, week_day)
 VALUES ('99999999-9999-9999-9999-999999999999', '55555555-5555-5555-5555-555555555555', 'Base.3 Bracos',
-        'Arms set'),
+        'Arms set', 0),
        ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '55555555-5555-5555-5555-555555555555', 'Base.3 Ombros',
-        'Deltoids set');
+        'Deltoids set', 0);
 
 -- Insert Bse.3 Arms
 INSERT INTO exercise (id, muscular_group_id, name, description)

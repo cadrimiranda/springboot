@@ -122,7 +122,7 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
                         .builder()
                         .name(setDto.name())
                         .description(setDto.description())
-                        .day(setDto.day())
+                        .weekDay(setDto.weekDay())
                         .build();
 
         ExerciseSet exerciseSet = exerciseSetService.save(exerciseSetRequestDTO);
