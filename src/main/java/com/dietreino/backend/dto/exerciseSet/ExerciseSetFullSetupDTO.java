@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Builder
-public record ExerciseSetFullSetupDTO(UUID id, String name, String description, WeekDays day,
+public record ExerciseSetFullSetupDTO(UUID id, String name, String description, WeekDays weekDay,
                                       List<ExerciseSetupFullDTO> exerciseSetupList) {
 }

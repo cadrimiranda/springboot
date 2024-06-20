@@ -4,5 +4,5 @@ import com.dietreino.backend.utils.WeekDays;
 import lombok.Builder;
 
 @Builder
-public record ExerciseSetRequestDTO(String name, String description, WeekDays day) {
+public record ExerciseSetRequestDTO(String name, String description, WeekDays weekDay) {
 }

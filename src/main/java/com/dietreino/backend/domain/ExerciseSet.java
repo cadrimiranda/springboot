@@ -21,7 +21,9 @@ public class ExerciseSet {
 
     private String name;
     private String description;
-    private WeekDays day;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "week_day")
+    private WeekDays weekDay;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
