@@ -51,9 +51,9 @@ create table exercise
 create table exercise_set
 (
     id          uuid not null,
-    week_day    tinyint check (week_day between 0 and 6),
     description varchar(255),
     name        varchar(255),
+    week_day    tinyint check (week_day between 0 and 6),
     workout_id  uuid,
     primary key (id)
 );
@@ -85,18 +85,20 @@ create table user_workout
 );
 create table users
 (
-    id                 uuid not null,
-    birth_date         date,
-    email              varchar(255),
-    last_name          varchar(255),
-    name               varchar(255),
-    next_appointment   date,
-    password           varchar(255),
-    phone              varchar(255),
-    plan_expiration    date,
-    plan_start         date,
-    workout_expiration date,
-    active_workout_id  uuid,
+    id                     uuid not null,
+    active                 boolean,
+    birth_date             date,
+    email                  varchar(255),
+    last_name              varchar(255),
+    name                   varchar(255),
+    next_appointment       date,
+    password               varchar(255),
+    phone                  varchar(255),
+    plan_expiration        date,
+    plan_start             date,
+    should_change_password boolean,
+    workout_expiration     date,
+    active_workout_id      uuid,
     primary key (id)
 );
 create table workout

@@ -25,6 +25,9 @@ public class User {
     private String email;
     private String password;
     private String phone;
+    private Boolean active;
+    @Column(name = "should_change_password")
+    private Boolean shouldChangePassword;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")

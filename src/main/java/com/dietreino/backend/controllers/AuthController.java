@@ -2,6 +2,7 @@ package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
+import com.dietreino.backend.dto.user.UserRegisterResponse;
 import com.dietreino.backend.dto.user.UserRequestDTO;
 import com.dietreino.backend.services.TokenService;
 import com.dietreino.backend.services.UserService;
@@ -33,9 +34,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRequestDTO body) {
+    public ResponseEntity<UserRegisterResponse> register(@RequestBody UserRequestDTO body) {
         User newUser = userService.save(body);
         String token = this.tokenService.generateToken(newUser);
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(UserRegisterResponse.builder()
+                .temporaryPassword(newUser.getPassword())
+                .token(token)
+                .build());
     }
 }

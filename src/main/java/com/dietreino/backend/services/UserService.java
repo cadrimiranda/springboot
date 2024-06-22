@@ -14,22 +14,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Component
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final int PASSWORD_LENGTH = 12;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    private String generateRandomPassword() {
+        byte[] randomBytes = new byte[PASSWORD_LENGTH];
+        RANDOM.nextBytes(randomBytes);
+        return Base64.getEncoder().encodeToString(randomBytes);
     }
 
     private void validateDuplicatedUser(String email) {
@@ -59,12 +65,12 @@ public class UserService {
         validateEmail(userDto.email());
     }
 
-    private User mapDtoToEntity(UserRequestDTO userDTO) {
+    private User mapDtoToEntity(UserRequestDTO userDTO, String randomPassword) {
         Date planStartDate = DateUtils.parse(userDTO.planStart());
 
         return User.builder()
                 .email(userDTO.email())
-                .password(passwordEncoder.encode(userDTO.password()))
+                .password(passwordEncoder.encode(randomPassword))
                 .email(userDTO.email())
                 .name(userDTO.name())
                 .lastName(userDTO.lastName())
@@ -73,7 +79,7 @@ public class UserService {
                 .phone(userDTO.phone())
                 .planExpiration(DateUtils.parse(userDTO.planExpiration()))
                 .planStart(planStartDate != null ? planStartDate : Date.from(Instant.now()))
-                .nextAppointment(DateUtils.parse(userDTO.nextAppointment()))
+                .shouldChangePassword(true)
                 .build();
     }
 
@@ -108,9 +114,12 @@ public class UserService {
     public User save(UserRequestDTO userDTO) {
         validateUserDto(userDTO);
         validateDuplicatedUser(userDTO.email());
+        String randomPassword = this.generateRandomPassword();
 
-        User userToSave = mapDtoToEntity(userDTO);
-        return this.userRepository.save(userToSave);
+        User userToSave = mapDtoToEntity(userDTO, randomPassword);
+        User savedUser = userRepository.save(userToSave);
+        savedUser.setPassword(randomPassword);
+        return savedUser;
     }
 
     public User verifyPassword(LoginRequestDTO loginRequestDTO) {
@@ -147,7 +156,9 @@ public class UserService {
                         .builder()
                         .planExpiration(user.getPlanExpiration().toString())
                         .planStart(user.getPlanStart().toString())
-                        .workoutExpiration(user.getWorkoutExpiration().toString())
+                        .workoutExpiration(Optional.ofNullable(user.getActiveWorkout())
+                                .map(workout -> workout.getEndDate().toString())
+                                .orElse(null))
                         .nextAppointment(user.getNextAppointment().toString())
                         .id(user.getId())
                         .name(user.getName())
