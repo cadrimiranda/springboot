@@ -97,8 +97,9 @@ create table users
     plan_expiration        date,
     plan_start             date,
     should_change_password boolean,
-    workout_expiration     date,
     active_workout_id      uuid,
+    nutritionist_id     uuid,
+    personal_trainer_id uuid,
     primary key (id)
 );
 create table workout
@@ -120,4 +121,6 @@ alter table if exists set_setup add constraint FKrk82rw83m5c0vswm8afsiesmb forei
 alter table if exists user_workout add constraint FK8ijj3n51qashihgce2xp61r5t foreign key (workout_id) references workout;
 alter table if exists user_workout add constraint FKdtpk4f8xe1dbf40bq3gkmageb foreign key (user_id) references users;
 alter table if exists users add constraint FKmccddlum1f6tmdre7vnx6ilaa foreign key (active_workout_id) references workout;
+alter table if exists users add constraint FKa1p377km1j0w8b6topd0qol0q foreign key (nutritionist_id) references users;
+alter table if exists users add constraint FK8y5qa8qa7li5rlkpucjsu64hd foreign key (personal_trainer_id) references users;
 alter table if exists workout add constraint FKlfu214l35p571pvmwwu9okowh foreign key (created_by_id) references users;

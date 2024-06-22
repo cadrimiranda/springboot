@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
-import java.time.Instant;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -65,8 +64,10 @@ public class UserService {
         validateEmail(userDto.email());
     }
 
-    private User mapDtoToEntity(UserRequestDTO userDTO, String randomPassword) {
+    private User mapDtoToEntity(UserRequestDTO userDTO, String randomPassword, UUID userRequestId) {
         Date planStartDate = DateUtils.parse(userDTO.planStart());
+        Date planEndDate = DateUtils.parse(userDTO.planExpiration());
+        User personalTrainer = userRepository.getReferenceById(userRequestId);
 
         return User.builder()
                 .email(userDTO.email())
@@ -77,9 +78,10 @@ public class UserService {
                 .activeWorkout(null)
                 .dateOfBirth(DateUtils.parse(userDTO.birthDate()))
                 .phone(userDTO.phone())
-                .planExpiration(DateUtils.parse(userDTO.planExpiration()))
-                .planStart(planStartDate != null ? planStartDate : Date.from(Instant.now()))
+                .planExpiration(planEndDate)
+                .planStart(planStartDate)
                 .shouldChangePassword(true)
+                .personalTrainer(personalTrainer)
                 .build();
     }
 
@@ -96,7 +98,7 @@ public class UserService {
                 .birthDate(Optional.ofNullable(user.getDateOfBirth()).map(Object::toString).orElse(null))
                 .planExpiration(Optional.ofNullable(user.getPlanExpiration()).map(Object::toString).orElse(null))
                 .nextAppointment(Optional.ofNullable(user.getNextAppointment()).map(Object::toString).orElse(null))
-                .workoutExpiration(Optional.ofNullable(user.getWorkoutExpiration()).map(Object::toString).orElse(null))
+                .workoutExpiration(Optional.ofNullable(user.getActiveWorkout()).map(workout -> workout.getEndDate().toString()).orElse(null))
                 .build();
     }
 
@@ -111,12 +113,12 @@ public class UserService {
         this.toResponseDTO(userRepository.save(domainUser));
     }
 
-    public User save(UserRequestDTO userDTO) {
+    public User save(UserRequestDTO userDTO, UUID userRequestId) {
         validateUserDto(userDTO);
         validateDuplicatedUser(userDTO.email());
         String randomPassword = this.generateRandomPassword();
 
-        User userToSave = mapDtoToEntity(userDTO, randomPassword);
+        User userToSave = mapDtoToEntity(userDTO, randomPassword, userRequestId);
         User savedUser = userRepository.save(userToSave);
         savedUser.setPassword(randomPassword);
         return savedUser;
@@ -154,12 +156,21 @@ public class UserService {
                 .stream()
                 .map(user -> UserListActivePlanWorkout
                         .builder()
-                        .planExpiration(user.getPlanExpiration().toString())
-                        .planStart(user.getPlanStart().toString())
+                        .planExpiration(
+                                Optional.ofNullable(user.getPlanExpiration())
+                                        .map(Date::toString)
+                                        .orElse(null)
+                        )
+                        .planStart(Optional.ofNullable(user.getPlanStart())
+                                .map(Date::toString)
+                                .orElse(null)
+                        )
                         .workoutExpiration(Optional.ofNullable(user.getActiveWorkout())
                                 .map(workout -> workout.getEndDate().toString())
                                 .orElse(null))
-                        .nextAppointment(user.getNextAppointment().toString())
+                        .nextAppointment(Optional.ofNullable(user.getNextAppointment())
+                                .map(Date::toString)
+                                .orElse(null))
                         .id(user.getId())
                         .name(user.getName())
                         .build()

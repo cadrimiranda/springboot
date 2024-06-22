@@ -8,6 +8,9 @@ import java.util.Date;
 
 public class DateUtils {
     public static Date parse(String dateString) {
+        if (dateString == null || dateString.isEmpty()) {
+            return null;
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date date;
