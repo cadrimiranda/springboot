@@ -4,12 +4,10 @@ import com.dietreino.backend.domain.User;
 import com.dietreino.backend.domain.Workout;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,9 +18,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<Workout> findActiveWorkoutByUserId(@Param("userId") UUID userId);
 
     Page<User> findAllByPersonalTrainerId(UUID trainerId, Pageable pageable);
-
-    List<User> findUsersByPersonalTrainerId(
-            @Param("personalId") UUID personalId, Sort sort);
 
     Optional<User> findUserByActiveWorkoutId(UUID activeWorkoutId);
 }
