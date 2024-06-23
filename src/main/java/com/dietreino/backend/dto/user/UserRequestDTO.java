@@ -1,18 +1,24 @@
 package com.dietreino.backend.dto.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Builder
-public record UserRequestDTO(
-        UUID activeWorkoutId,
-        String name,
-        String lastName,
-        String fullName,
-        String email,
-        String phone,
-        String birthDate,
-        String planExpiration,
-        String planStart) {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserRequestDTO {
+    UUID activeWorkoutId;
+    String name;
+    String lastName;
+    String email;
+    String phone;
+    String birthDate;
+    String planExpiration;
+    String planStart;
+    String nextAppoitment;
 }

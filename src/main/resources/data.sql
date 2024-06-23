@@ -7,24 +7,29 @@ VALUES ('aa111111-1111-1111-1111-111111111111', 'QUADRICEPS'),
        ('aa555555-5555-5555-5555-555555555555', 'SHOULDERS'),
        ('aa555555-5555-5555-5554-455555555555', 'ABS'),
        ('aa555555-5555-5555-4444-555555555555', 'CALVES'),
+       ('aa555555-5555-5555-2222-555555555555', 'BACK'),
+       ('aa555555-5555-5555-3333-555555555555', 'GLUTES'),
        ('aa666666-6666-6666-6666-666666666666', 'CHEST');
 
 -- noinspection SqlNoDataSourceInspection
-INSERT INTO users (id, email, name, last_name, password, active_workout_id)
-VALUES ('22222222-2222-2222-2222-222222222222', 'jane.doe@example.com', 'Personal', 'Trainer', 'encryptedpassword2',
-        null);
+INSERT INTO users (id, email, name, last_name, password, active_workout_id, active)
+VALUES ('22222222-2222-2222-2222-222222222222', 'jane.doe@example.com', 'Personal', 'Trainer',
+        '$2a$10$KUT1.LmQPRvek0nbL74pKOn23fKR52.7Cmr6vOtomD5zaoZ8eNC4C', null, true);
 
-INSERT INTO users (id, email, name, last_name, password, plan_start, plan_expiration, next_appointment)
+INSERT INTO users (id, email, name, last_name, password, plan_start, next_appointment, active)
 VALUES ('22222222-2222-2222-2222-222222222223', 'doe.doe@example.com', 'User sem plano', 'ativo', 'encryptedpassword3',
-        '2024-02-17', '2024-4-17', '2024-4-16');
+        '2024-02-17', '2024-4-16', true);
 
-INSERT INTO users (id, email, name, last_name, password, plan_start, plan_expiration, next_appointment)
+INSERT INTO users (id, email, name, last_name, password, plan_start, plan_expiration, next_appointment,
+                   personal_trainer_id, active)
 VALUES ('22222222-2222-2222-2222-222222222233', 'doe.doe@example.com', 'Debora', 'Reitembach', 'encryptedpassword3',
-        '2024-02-17', '2024-12-17', '2024-06-28');
+        '2024-02-17', '2024-12-17', '2024-06-28', '22222222-2222-2222-2222-222222222222', true);
 
-INSERT INTO users (id, email, name, last_name, password, plan_start, plan_expiration, next_appointment)
+INSERT INTO users (id, email, name, last_name, password, plan_start, plan_expiration, next_appointment,
+                   personal_trainer_id, active)
 VALUES ('11111111-1111-1111-1111-111111111111', 'example@domain.com', 'Carlos Adriano', 'Miranda',
-        '$2a$10$KUT1.LmQPRvek0nbL74pKOn23fKR52.7Cmr6vOtomD5zaoZ8eNC4C', '2024-02-17', '2024-12-17', '2024-06-28');
+        '$2a$10$KUT1.LmQPRvek0nbL74pKOn23fKR52.7Cmr6vOtomD5zaoZ8eNC4C', '2024-02-17', '2024-12-17', '2024-06-28',
+        '22222222-2222-2222-2222-222222222222', true);
 
 -- Insert data into `workout` table
 INSERT INTO workout (id, created_by_id, name, description, start_date, end_date)

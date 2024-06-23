@@ -2,6 +2,9 @@ package com.dietreino.backend.repositories;
 
 import com.dietreino.backend.domain.User;
 import com.dietreino.backend.domain.Workout;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +19,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u.activeWorkout FROM User u WHERE u.id = :userId")
     Optional<Workout> findActiveWorkoutByUserId(@Param("userId") UUID userId);
 
-    @Query("SELECT u from User u where u.planExpiration > CURRENT_DATE")
-    List<User> findActiveUsersWithActivePlan();
+    Page<User> findAllByPersonalTrainerId(UUID trainerId, Pageable pageable);
+
+    List<User> findUsersByPersonalTrainerId(
+            @Param("personalId") UUID personalId, Sort sort);
 
     Optional<User> findUserByActiveWorkoutId(UUID activeWorkoutId);
 }

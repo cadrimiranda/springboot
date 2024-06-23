@@ -1,8 +1,6 @@
 package com.dietreino.backend.utils;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.time.Instant;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
@@ -12,13 +10,13 @@ public class DateUtils {
             return null;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Date date;
 
         try {
-            LocalDate localDate = LocalDate.parse(dateString, formatter);
-            date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Instant instant = Instant.parse(dateString);
+            date = Date.from(instant);
         } catch (DateTimeParseException e) {
+            System.out.println(e.getMessage());
             date = null;
         }
 
