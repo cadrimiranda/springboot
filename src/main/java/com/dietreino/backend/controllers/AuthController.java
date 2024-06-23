@@ -2,15 +2,19 @@ package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
+import com.dietreino.backend.dto.user.UserRegisterResponse;
 import com.dietreino.backend.dto.user.UserRequestDTO;
 import com.dietreino.backend.services.TokenService;
 import com.dietreino.backend.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 
 @RestController
@@ -33,9 +37,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRequestDTO body) {
-        User newUser = userService.save(body);
+    public ResponseEntity<UserRegisterResponse> register(HttpServletRequest request, @RequestBody UserRequestDTO body) {
+        UUID userRequestId = (UUID) request.getAttribute("user_id");
+        User newUser = userService.save(body, userRequestId);
         String token = this.tokenService.generateToken(newUser);
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(UserRegisterResponse.builder()
+                .temporaryPassword(newUser.getPassword())
+                .token(token)
+                .id(newUser.getId())
+                .build());
     }
 }

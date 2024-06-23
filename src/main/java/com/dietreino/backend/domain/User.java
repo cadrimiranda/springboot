@@ -1,6 +1,7 @@
 package com.dietreino.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,11 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    @Nullable
     private String phone;
+    private Boolean active;
+    @Column(name = "should_change_password")
+    private Boolean shouldChangePassword;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")
@@ -47,17 +52,26 @@ public class User {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "plan_start")
+    @Nullable
     private Date planStart;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "plan_expiration")
+    @Nullable
     private Date planExpiration;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "next_appointment")
+    @Nullable
     private Date nextAppointment;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "workout_expiration")
-    private Date workoutExpiration;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "personal_trainer_id")
+    @Nullable
+    private User personalTrainer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nutritionist_id")
+    @Nullable
+    private User nutritionist;
 }
