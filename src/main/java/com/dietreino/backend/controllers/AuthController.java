@@ -1,11 +1,10 @@
 package com.dietreino.backend.controllers;
 
-import com.dietreino.backend.domain.User;
 import com.dietreino.backend.dto.LoginRequestDTO;
+import com.dietreino.backend.dto.login.LoginResponseDTO;
 import com.dietreino.backend.dto.user.UserRegisterResponse;
 import com.dietreino.backend.dto.user.UserRequestDTO;
-import com.dietreino.backend.services.TokenService;
-import com.dietreino.backend.services.UserService;
+import com.dietreino.backend.services.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,31 +19,21 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final TokenService tokenService;
-    private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(TokenService tokenService, UserService userService) {
-        this.tokenService = tokenService;
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO body) {
-        User user = userService.verifyPassword(body);
-        String token = this.tokenService.generateToken(user);
-        return ResponseEntity.ok(token);
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO body) {
+        return ResponseEntity.ok(authService.login(body));
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserRegisterResponse> register(HttpServletRequest request, @RequestBody UserRequestDTO body) {
         UUID userRequestId = (UUID) request.getAttribute("user_id");
-        User newUser = userService.save(body, userRequestId);
-        String token = this.tokenService.generateToken(newUser);
-        return ResponseEntity.ok(UserRegisterResponse.builder()
-                .temporaryPassword(newUser.getPassword())
-                .token(token)
-                .id(newUser.getId())
-                .build());
+        return ResponseEntity.ok(authService.register(userRequestId, body));
     }
 }
