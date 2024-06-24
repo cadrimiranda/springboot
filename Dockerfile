@@ -13,9 +13,4 @@ RUN ./mvnw dependency:resolve
 
 COPY src ./src
 
-ENV DB_IP_PORT=${DB_IP_PORT}
-ENV DB_USERNAME=${DB_USERNAME}
-ENV PORT=${PORT}
-ENV DB_PASSWORD=${DB_PASSWORD}
-
 CMD ["./mvnw", "spring-boot:run"]
