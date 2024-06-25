@@ -12,7 +12,6 @@ import com.dietreino.backend.dto.workout.WorkoutRequestDTO;
 import com.dietreino.backend.repositories.WorkoutRepository;
 import com.dietreino.backend.utils.CRUDService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +68,6 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
         return workoutRepository.save(workout);
     }
 
-    @Transactional
     public Workout save(WorkoutRequestDTO workoutRequestDTO, UUID userRequestId) {
         User creationUser = userService.getDomainUser(userRequestId);
         Workout workout = convertDto(workoutRequestDTO);
@@ -114,7 +112,6 @@ public class WorkoutService extends CRUDService<Workout, WorkoutRequestDTO> {
         workoutRepository.deleteById(id);
     }
 
-    @Transactional
     public Workout addSetToWorkout(UUID workoutID, ExerciseSetFullSetupDTO setDto) {
         Workout workout = findById(workoutID);
         ExerciseSetRequestDTO exerciseSetRequestDTO =
