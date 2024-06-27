@@ -13,9 +13,5 @@ RUN ./mvnw dependency:resolve
 
 COPY src ./src
 
-ENV DB_IP_PORT=${DB_IP_PORT}
-ENV DB_USERNAME=${DB_USERNAME}
-ENV DB_PASSWORD=${DB_PASSWORD}
-ENV PORT=${PORT}
-
-CMD ["./mvnw", "spring-boot:run", "--debug"]
+ENTRYPOINT ["./mvnw", "spring-boot:run"]
+CMD ["--spring.profiles.active=prod"]
