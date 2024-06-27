@@ -1,10 +1,10 @@
 FROM eclipse-temurin:17-jdk-jammy
-
+EXPOSE 8080
 WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
-RUN chmod +x ./mvmw
+RUN chmod +x ./mvnw
 
 RUN apt-get update && apt-get install -y dos2unix
 RUN dos2unix ./mvnw
