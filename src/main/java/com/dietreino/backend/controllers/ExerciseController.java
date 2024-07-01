@@ -2,10 +2,12 @@ package com.dietreino.backend.controllers;
 
 import com.dietreino.backend.dto.exercise.ExerciseAutocompleteDTO;
 import com.dietreino.backend.dto.exercise.ExerciseDTO;
+import com.dietreino.backend.dto.exercise.ExerciseListPageDTO;
 import com.dietreino.backend.services.ExerciseService;
 import com.dietreino.backend.utils.CRUDController;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,11 +44,11 @@ public class ExerciseController extends CRUDController<ExerciseDTO, ExerciseDTO,
         return ResponseEntity.ok(exercise);
     }
 
-    @Override
     @GetMapping("/getall")
-    public ResponseEntity<List<ExerciseDTO>> getAll() {
-        List<ExerciseDTO> list = service.findAll();
-        return ResponseEntity.ok(list);
+    public ResponseEntity<ExerciseListPageDTO> getAll(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            Pageable pageable) {
+        return ResponseEntity.ok(service.findAll(name, pageable));
     }
 
     @Override
@@ -54,6 +56,11 @@ public class ExerciseController extends CRUDController<ExerciseDTO, ExerciseDTO,
     public ResponseEntity<String> deleteOne(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.ok("Deleted exercise with id: " + id);
+    }
+
+    @Override
+    public ResponseEntity<List<ExerciseDTO>> getAll() {
+        return null;
     }
 
     @Override
