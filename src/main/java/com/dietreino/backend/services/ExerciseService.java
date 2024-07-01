@@ -5,6 +5,7 @@ import com.dietreino.backend.domain.ExerciseSetup;
 import com.dietreino.backend.domain.MuscularGroup;
 import com.dietreino.backend.dto.exercise.ExerciseAutocompleteDTO;
 import com.dietreino.backend.dto.exercise.ExerciseDTO;
+import com.dietreino.backend.dto.exercise.ExerciseListPageDTO;
 import com.dietreino.backend.exceptions.CannotDeleteExerciseInsideSetups;
 import com.dietreino.backend.repositories.ExerciseRepository;
 import com.dietreino.backend.repositories.ExerciseSetupRepository;
@@ -12,6 +13,8 @@ import com.dietreino.backend.utils.GroupMuscularEnum;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,12 +69,9 @@ public class ExerciseService {
         return this.domainToDTO(exerciseRepository.save(exercise));
     }
 
-    public List<ExerciseDTO> findAll() {
-        return exerciseRepository
-                .findAll()
-                .stream()
-                .map(this::domainToDTO)
-                .collect(Collectors.toList());
+    public ExerciseListPageDTO findAll(String name, Pageable pageable) {
+        Page<Exercise> exercises = exerciseRepository.findByNameContainingIgnoreCase(name, pageable);
+        return new ExerciseListPageDTO(exercises);
     }
 
     public Exercise findDomainById(UUID id) {
